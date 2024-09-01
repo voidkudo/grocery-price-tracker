@@ -7,11 +7,14 @@ import { RouterProvider } from 'react-router-dom'
 import router from './routers/router'
 import { Provider } from 'react-redux';
 import { store } from './stores/store';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_OAUTH_2_0_CLIENT_ID}>
+        <RouterProvider router={router} />
+      </GoogleOAuthProvider>
     </Provider>
   )
 };
