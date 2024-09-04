@@ -1,42 +1,42 @@
 import { Search } from "@mui/icons-material";
-import { colors, InputAdornment, TextField } from "@mui/material";
-import { ChangeEvent, useEffect, useState } from "react";
-
+import { Autocomplete, InputAdornment, TextField } from "@mui/material";
+import { SyntheticEvent } from "react";
+import { groceryItemData } from "../data/data";
+import { useSearchParams } from "react-router-dom";
 
 const SearchBar = () => {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleSearchInput = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+  const handleSearch = (_e: SyntheticEvent, value: string) => {
+    setSearchParams({...searchParams, value})
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      console.log(searchValue);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [searchValue]);
-
-
   return (
-    <TextField
-      slotProps={{
-        input: {
-          startAdornment: (
-            <InputAdornment position='start'>
-              <Search/>
-            </InputAdornment>
-          ),
-        },
-      }}
-      fullWidth
-      variant='outlined'
-      placeholder='Search any groceries or stores'
-      value={searchValue}
-      onChange={handleSearchInput}
+    <Autocomplete
+      freeSolo
+      disableClearable
+      handleHomeEndKeys
+      options={groceryItemData.map(item => item.name)}
+      onChange={handleSearch}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          slotProps={{
+            input: {
+              ...params.InputProps,
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <Search />
+                </InputAdornment>
+              ),
+            },
+          }}
+          fullWidth
+          variant='outlined'
+          placeholder='Search any Grocery Items'
+        />
+      )}
     />
-
   )
 };
 
