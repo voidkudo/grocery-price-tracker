@@ -1,6 +1,6 @@
 import { JwtPayload } from "jwt-decode";
 
-interface GoogleOAuthCredentail extends JwtPayload {
+export interface GoogleOAuthCredentail extends JwtPayload {
   email?: string,
   email_verified?: boolean,
   name?: string,
