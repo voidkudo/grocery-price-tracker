@@ -38,7 +38,7 @@ const NavBar = () => {
         </Box>
         {
           user === undefined ?
-            <GoogleLogin onSuccess={handleGoogleLogin} /> :
+            <GoogleLogin onSuccess={handleGoogleLogin} useOneTap /> :
             <User />
         }
       </Toolbar>
