@@ -1,23 +1,57 @@
 import { Search } from "@mui/icons-material";
 import { Autocomplete, InputAdornment, TextField } from "@mui/material";
-import { SyntheticEvent } from "react";
+import { KeyboardEvent, SyntheticEvent } from "react";
 import { groceryItemData } from "../data/data";
-import { useSearchParams } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../stores/store";
+import { useDispatch } from "react-redux";
+import { resetSearchValue, setSearchValue } from "../stores/slices/searchSlice";
 
 const SearchBar = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchValue = useSelector((state: RootState) => state.search.value);
+  const dispatch = useDispatch();
 
-  const handleSearch = (_e: SyntheticEvent, value: string) => {
-    setSearchParams({...searchParams, value})
+  const navigate = useNavigate();
+
+  const _search = (value: string) => {
+    console.log(value);
+    navigate({
+      pathname: '/item',
+      search: createSearchParams({
+        value
+      }).toString()
+    });
+  }
+
+  const handleSearch = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter') {
+      _search(searchValue.trim());
+    }
+  };
+
+  const handleSearchValueSelect = (_e: SyntheticEvent, value: string | null) => {
+    if (value === null) {
+      dispatch(resetSearchValue());
+    } else {
+      _search(value);
+      dispatch(setSearchValue(value));
+    }
+  };
+
+  const handleSearchInput = (_e: SyntheticEvent, value: string) => {
+    dispatch(setSearchValue(value));
   };
 
   return (
     <Autocomplete
       freeSolo
-      disableClearable
       handleHomeEndKeys
+      value={searchValue}
       options={groceryItemData.map(item => item.name)}
-      onChange={handleSearch}
+      onInputChange={handleSearchInput}
+      onChange={handleSearchValueSelect}
+      onKeyDown={handleSearch}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -31,7 +65,6 @@ const SearchBar = () => {
               ),
             },
           }}
-          fullWidth
           variant='outlined'
           placeholder='Search any Grocery Items'
         />

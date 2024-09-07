@@ -8,6 +8,7 @@ import { setUser } from "../stores/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import User from "./User";
 import SearchBar from "./SearchBar";
+import { resetSearchValue } from "../stores/slices/searchSlice";
 
 const NavBar = () => {
   const user = useSelector((state: RootState) => state.user.value);
@@ -15,6 +16,7 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const handleTitleClick = () => {
+    dispatch(resetSearchValue());
     navigate('/');
   };
 
@@ -28,7 +30,7 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position='static' sx={{ backgroundColor: 'white' }}>
+    <AppBar position='sticky' sx={{ backgroundColor: 'white' }}>
       <Toolbar>
         <Button onClick={handleTitleClick}>
           <Typography variant='h6' >Grocery Price Tracker</Typography>
