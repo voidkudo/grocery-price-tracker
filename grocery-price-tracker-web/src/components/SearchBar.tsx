@@ -1,14 +1,16 @@
 import { Search } from "@mui/icons-material";
 import { Autocomplete, InputAdornment, TextField } from "@mui/material";
-import { KeyboardEvent, SyntheticEvent } from "react";
-import { groceryItemData } from "../data/data";
+import { KeyboardEvent, SyntheticEvent, useEffect, useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../stores/store";
 import { useDispatch } from "react-redux";
 import { resetSearchValue, setSearchValue } from "../stores/slices/searchSlice";
+import { getGroceryItemNames } from "../data/data";
 
 const SearchBar = () => {
+  const [items, setItems] = useState<string[]>([]);
+
   const searchValue = useSelector((state: RootState) => state.search.value);
   const dispatch = useDispatch();
 
@@ -43,12 +45,16 @@ const SearchBar = () => {
     dispatch(setSearchValue(value));
   };
 
+  useEffect(() => {
+    getGroceryItemNames().then(data => setItems(data));
+  }, []);
+
   return (
     <Autocomplete
       freeSolo
       handleHomeEndKeys
       value={searchValue}
-      options={groceryItemData.map(item => item.name)}
+      options={items}
       onInputChange={handleSearchInput}
       onChange={handleSearchValueSelect}
       onKeyDown={handleSearch}

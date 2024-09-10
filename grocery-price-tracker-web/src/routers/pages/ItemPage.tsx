@@ -1,9 +1,9 @@
 import { Box, Chip, Typography } from "@mui/material";
-import { groceryItemData } from "../../data/data";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GroceryItem } from "../../types/data";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { getGroceryItemByName } from "../../data/data";
 
 const ItemPage = () => {
   const [item, setItem] = useState<GroceryItem>();
@@ -14,8 +14,8 @@ const ItemPage = () => {
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
     {
-      field: 'name',
-      headerName: 'Name',
+      field: 'detail',
+      headerName: 'Product Detail',
       flex: 1,
     },
     {
@@ -29,6 +29,11 @@ const ItemPage = () => {
       width: 150,
     },
     {
+      field: 'qty',
+      headerName: 'QTY',
+      width: 150,
+    },
+    {
       field: 'isTaxable',
       headerName: 'HST/GST',
       width: 150,
@@ -39,16 +44,17 @@ const ItemPage = () => {
       width: 150,
     },
     {
-      field: 'date',
+      field: 'purchaseDate',
       headerName: 'Purchase Date',
       width: 150,
     }
   ];
 
-  const rows = item?.records.map((item, index) => { return { ...item, id: index } }) ?? [];
+  const rows = item?.records?.sort((a, b) => b.purchaseDate.localeCompare(a.purchaseDate)).map((item, index) => { return { ...item, id: index } }) ?? [];
 
   useEffect(() => {
-    setItem(groceryItemData.find(item => item.name.toUpperCase() === searchValue.toUpperCase()));
+    // TODO: Implement Search Function
+    getGroceryItemByName(searchValue).then(data => setItem(data));
   }, [searchValue]);
 
   return (

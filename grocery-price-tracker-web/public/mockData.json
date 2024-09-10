@@ -1,0 +1,62 @@
+{
+  "categories": [
+    "Fruits & Vegetables",
+    "Pantry",
+    "Dairy & Eggs",
+    "Meat",
+    "Deli",
+    "Snack",
+    "Frozen Food",
+    "Bakery",
+    "Drinks",
+    "Personal",
+    "Household"
+  ],
+  "stores": [
+    "No Frills",
+    "Food Basic",
+    "T&T Supermarket"
+  ],
+  "items": {
+    "Coke": {
+      "category": "Drinks",
+      "records": [
+        {
+          "detail": "Coke Zero 2L",
+          "brand": "Coca-Cola",
+          "price": 1.33,
+          "qty": 1,
+          "isTaxable": true,
+          "store": "No Frills",
+          "purchaseDate": "2024-09-03",
+          "createTimestamp": 1725948320000
+        }
+      ]
+    },
+    "Yogort": {
+      "category": "Dairy & Eggs",
+      "records": [
+        {
+          "detail": "Greek Yogert 650g",
+          "brand": "OIKO",
+          "price": 5.49,
+          "qty": 1,
+          "isTaxable": false,
+          "store": "No Frills",
+          "purchaseDate": "2024-09-03",
+          "createTimestamp": 1725948330000
+        },
+        {
+          "detail": "Yogert 12x100g",
+          "brand": "Activia",
+          "price": 5.5,
+          "qty": 1,
+          "isTaxable": false,
+          "store": "No Frills",
+          "purchaseDate": "2024-09-03",
+          "createTimestamp": 1725948350000
+        }
+      ]
+    }
+  }
+}
