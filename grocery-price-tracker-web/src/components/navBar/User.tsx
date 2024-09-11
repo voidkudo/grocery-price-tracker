@@ -2,13 +2,13 @@ import { Avatar, Box, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "
 import { useState } from "react";
 import { AccountCircle, Logout, Settings } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../stores/store";
-import { resetUser } from "../stores/slices/userSlice";
+import { RootState } from "../../stores/store";
+import { resetUser } from "../../stores/slices/userSlice";
 
 const User = () => {
   const user = useSelector((state: RootState) => state.user.value);
   const dispatch = useDispatch();
-  
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -29,13 +29,13 @@ const User = () => {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Tooltip title='Account Management'>
+      <Tooltip title='Account'>
         <IconButton onClick={handleAvatarClick}>
-          <Avatar alt='User Avatar' src={user?.picture} />
+          <Avatar src={user?.picture} />
         </IconButton>
       </Tooltip>
       <Menu anchorEl={anchorEl} open={isMenuOpen} onClose={handleMenuClose}>
-        <MenuItem >
+        <MenuItem>
           <ListItemIcon>
             <AccountCircle fontSize="small" />
           </ListItemIcon>

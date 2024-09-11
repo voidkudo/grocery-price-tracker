@@ -1,14 +1,15 @@
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { GoogleOAuthCredentail } from "../types/googleOAuth";
+import { GoogleOAuthCredentail } from "../../types/googleOAuth";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../stores/store";
-import { setUser } from "../stores/slices/userSlice";
+import { RootState } from "../../stores/store";
+import { setUser } from "../../stores/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import User from "./User";
 import SearchBar from "./SearchBar";
-import { resetSearchValue } from "../stores/slices/searchSlice";
+import { resetSearchValue } from "../../stores/slices/searchSlice";
+import CreateButton from "./CreateButton";
 
 const NavBar = () => {
   const user = useSelector((state: RootState) => state.user.value);
@@ -41,7 +42,10 @@ const NavBar = () => {
         {
           user === undefined ?
             <GoogleLogin onSuccess={handleGoogleLogin} useOneTap /> :
-            <User />
+            <>
+              <CreateButton />
+              <User />
+            </>
         }
       </Toolbar>
     </AppBar>

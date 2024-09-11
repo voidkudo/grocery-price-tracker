@@ -3,13 +3,13 @@ import { Autocomplete, InputAdornment, TextField } from "@mui/material";
 import { KeyboardEvent, SyntheticEvent, useEffect, useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../stores/store";
+import { RootState } from "../../stores/store";
 import { useDispatch } from "react-redux";
-import { resetSearchValue, setSearchValue } from "../stores/slices/searchSlice";
-import { getGroceryItemNames } from "../data/data";
+import { resetSearchValue, setSearchValue } from "../../stores/slices/searchSlice";
+import { getAllGroceryItemNames } from "../../data/data";
 
 const SearchBar = () => {
-  const [items, setItems] = useState<string[]>([]);
+  const [options, setOptions] = useState<string[]>([]);
 
   const searchValue = useSelector((state: RootState) => state.search.value);
   const dispatch = useDispatch();
@@ -17,7 +17,6 @@ const SearchBar = () => {
   const navigate = useNavigate();
 
   const _search = (value: string) => {
-    console.log(value);
     navigate({
       pathname: '/item',
       search: createSearchParams({
@@ -46,7 +45,7 @@ const SearchBar = () => {
   };
 
   useEffect(() => {
-    getGroceryItemNames().then(data => setItems(data));
+    getAllGroceryItemNames().then(data => setOptions(data));
   }, []);
 
   return (
@@ -54,7 +53,7 @@ const SearchBar = () => {
       freeSolo
       handleHomeEndKeys
       value={searchValue}
-      options={items}
+      options={options}
       onInputChange={handleSearchInput}
       onChange={handleSearchValueSelect}
       onKeyDown={handleSearch}
