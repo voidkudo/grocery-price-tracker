@@ -1,15 +1,14 @@
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { GoogleOAuthCredentail } from "../../types/googleOAuth";
+import { GoogleOAuthCredentail } from "../types/googleOAuth";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../stores/store";
-import { setUser } from "../../stores/slices/userSlice";
-import { useNavigate } from "react-router-dom";
-import User from "./User";
-import SearchBar from "./SearchBar";
-import { resetSearchValue } from "../../stores/slices/searchSlice";
-import CreateButton from "./CreateButton";
+import { RootState } from "../stores/store";
+import { resetUser, setUser } from "../stores/slices/userSlice";
+import { createSearchParams, useNavigate } from "react-router-dom";
+import User from "./navBar/User";
+import SearchBar from "./navBar/SearchBar";
+import AddRecordButton from "./navBar/AddRecordButton";
 
 const NavBar = () => {
   const user = useSelector((state: RootState) => state.user.value);
@@ -17,7 +16,6 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const handleTitleClick = () => {
-    dispatch(resetSearchValue());
     navigate('/');
   };
 
@@ -30,6 +28,24 @@ const NavBar = () => {
     }
   };
 
+  const handleLogout = () => {
+    dispatch(resetUser());
+  };
+
+  const handleItemSearch = (searchValue: string) => {
+    navigate({
+      pathname: '/item',
+      search: createSearchParams({
+        value: searchValue
+      }).toString()
+    });
+  };
+
+  const handleAddRecord = () => {
+
+  };
+
+
   return (
     <AppBar position='sticky' sx={{ backgroundColor: 'white' }}>
       <Toolbar>
@@ -37,14 +53,14 @@ const NavBar = () => {
           <Typography variant='h6' >Grocery Price Tracker</Typography>
         </Button>
         <Box sx={{ flexGrow: 1, padding: '0 1em' }}>
-          <SearchBar />
+          <SearchBar handleSearch={handleItemSearch}/>
         </Box>
         {
           user === undefined ?
             <GoogleLogin onSuccess={handleGoogleLogin} useOneTap /> :
             <>
-              <CreateButton />
-              <User />
+              <AddRecordButton handleAddRecord={handleAddRecord} />
+              <User user={user} handleLogout={handleLogout}/>
             </>
         }
       </Toolbar>

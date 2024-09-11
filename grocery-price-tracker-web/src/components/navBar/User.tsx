@@ -1,14 +1,14 @@
 import { Avatar, Box, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { AccountCircle, Logout, Settings } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../stores/store";
-import { resetUser } from "../../stores/slices/userSlice";
+import { GoogleOAuthCredentail } from "../../types/googleOAuth";
 
-const User = () => {
-  const user = useSelector((state: RootState) => state.user.value);
-  const dispatch = useDispatch();
+interface UserProps {
+  user: GoogleOAuthCredentail,
+  handleLogout: () => void,
+};
 
+const User = (props: UserProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -23,7 +23,7 @@ const User = () => {
   };
 
   const handleLogoutClick = () => {
-    dispatch(resetUser());
+    props.handleLogout();
     handleMenuClose();
   };
 
@@ -31,7 +31,7 @@ const User = () => {
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Tooltip title='Account'>
         <IconButton onClick={handleAvatarClick}>
-          <Avatar src={user?.picture} />
+          <Avatar src={props.user?.picture} />
         </IconButton>
       </Tooltip>
       <Menu anchorEl={anchorEl} open={isMenuOpen} onClose={handleMenuClose}>

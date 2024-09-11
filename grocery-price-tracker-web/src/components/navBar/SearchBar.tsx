@@ -1,48 +1,39 @@
 import { Search } from "@mui/icons-material";
-import { Autocomplete, InputAdornment, TextField } from "@mui/material";
+import { Autocomplete, IconButton, InputAdornment, TextField } from "@mui/material";
 import { KeyboardEvent, SyntheticEvent, useEffect, useState } from "react";
-import { createSearchParams, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../stores/store";
-import { useDispatch } from "react-redux";
-import { resetSearchValue, setSearchValue } from "../../stores/slices/searchSlice";
 import { getAllGroceryItemNames } from "../../data/data";
 
-const SearchBar = () => {
+interface SearchBarProps {
+  handleSearch: (value: string) => void,
+};
+
+const SearchBar = (props: SearchBarProps) => {
+  const [searchValue, setSearchValue] = useState('');
   const [options, setOptions] = useState<string[]>([]);
 
-  const searchValue = useSelector((state: RootState) => state.search.value);
-  const dispatch = useDispatch();
-
-  const navigate = useNavigate();
-
-  const _search = (value: string) => {
-    navigate({
-      pathname: '/item',
-      search: createSearchParams({
-        value
-      }).toString()
-    });
-  }
-
-  const handleSearch = (e: KeyboardEvent<HTMLDivElement>) => {
+  const handleSearchKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
-      _search(searchValue.trim());
+      props.handleSearch(searchValue.trim());
     }
   };
 
   const handleSearchValueSelect = (_e: SyntheticEvent, value: string | null) => {
+    console.log(value)
     if (value === null) {
-      dispatch(resetSearchValue());
+      setSearchValue('');
     } else {
-      _search(value);
-      dispatch(setSearchValue(value));
+      setSearchValue(value);
+      props.handleSearch(value);
     }
   };
 
   const handleSearchInput = (_e: SyntheticEvent, value: string) => {
-    dispatch(setSearchValue(value));
+    setSearchValue(value);
   };
+
+  const handleSearchIconClick = () => {
+    props.handleSearch(searchValue.trim());
+  }
 
   useEffect(() => {
     getAllGroceryItemNames().then(data => setOptions(data));
@@ -50,22 +41,24 @@ const SearchBar = () => {
 
   return (
     <Autocomplete
-      freeSolo
-      handleHomeEndKeys
+      disableClearable
       value={searchValue}
       options={options}
+      noOptionsText='No Items Found'
       onInputChange={handleSearchInput}
       onChange={handleSearchValueSelect}
-      onKeyDown={handleSearch}
+      onKeyDown={handleSearchKeyDown}
       renderInput={(params) => (
         <TextField
           {...params}
           slotProps={{
             input: {
               ...params.InputProps,
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <Search />
+              endAdornment: (
+                <InputAdornment position='end'>
+                  <IconButton onClick={handleSearchIconClick} edge='end'>
+                    <Search />
+                  </IconButton>
                 </InputAdornment>
               ),
             },
