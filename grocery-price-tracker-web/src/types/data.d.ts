@@ -5,12 +5,11 @@ export interface GroceryItem {
 };
 
 export interface GroceryItemRecord {
-  detail: string,
+  desc: string,
   brand: string,
   price: number,
   qty: number
   isTaxable: boolean,
   store: string,
-  purchaseDate: string,
-  createTimestamp: number
+  purchaseDate: string
 };
