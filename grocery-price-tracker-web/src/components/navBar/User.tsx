@@ -1,10 +1,10 @@
 import { Avatar, Box, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { AccountCircle, Logout, Settings } from "@mui/icons-material";
-import { GoogleOAuthCredentail } from "../../types/googleOAuth";
+import { GoogleAuthCredentail } from "../../types/googleAuth";
 
 interface UserProps {
-  user: GoogleOAuthCredentail,
+  user: GoogleAuthCredentail,
   handleLogout: () => void,
 };
 

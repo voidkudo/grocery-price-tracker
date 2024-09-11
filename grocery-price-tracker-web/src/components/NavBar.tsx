@@ -1,7 +1,7 @@
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { GoogleOAuthCredentail } from "../types/googleOAuth";
+import { GoogleAuthCredentail } from "../types/googleAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../stores/store";
 import { resetUser, setUser } from "../stores/slices/userSlice";
@@ -23,7 +23,7 @@ const NavBar = () => {
   const handleGoogleLogin = (res: CredentialResponse) => {
     console.log(res);
     if (res.credential !== undefined) {
-      const credentail = jwtDecode<GoogleOAuthCredentail>(res.credential);
+      const credentail = jwtDecode<GoogleAuthCredentail>(res.credential);
       console.log(credentail);
       dispatch(setUser(credentail));
     }

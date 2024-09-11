@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GoogleOAuthCredentail } from "../../types/googleOAuth";
+import { GoogleAuthCredentail } from "../../types/googleAuth";
 
 interface UserState {
-  value: GoogleOAuthCredentail | undefined,
+  value: GoogleAuthCredentail | undefined,
 };
 
 const initialState: UserState = {
@@ -16,7 +16,7 @@ export const userSlice = createSlice({
     resetUser: (state) => {
       state.value = undefined;
     },
-    setUser: (state, action: PayloadAction<GoogleOAuthCredentail>) => {
+    setUser: (state, action: PayloadAction<GoogleAuthCredentail>) => {
       state.value = action.payload;
     },
   },
