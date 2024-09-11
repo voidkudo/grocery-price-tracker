@@ -29,7 +29,7 @@ const CategoryPage = () => {
 
   return (
     <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center' }}>
-      <Grid container spacing={1} height={'80%'} width={'100%'} justifyContent={'center'} overflow={'auto'}>
+      <Grid container spacing={1} maxHeight={'80%'} width={'100%'} justifyContent={'center'} overflow={'auto'}>
         {
           items.map((item, index) => {
             return (
