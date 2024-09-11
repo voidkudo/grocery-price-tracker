@@ -2,22 +2,14 @@ import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2"
 import { useEffect, useState } from "react";
 import { getCategroies } from "../../data/data";
-import { createSearchParams, useNavigate } from "react-router-dom";
 import CardButton from "../../components/CardButton";
+import { navigateToCategoryPage } from "../navigate";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [categories, setCatecories] = useState<string[]>([]);
 
   const navigate = useNavigate();
-
-  const handleCategroyClick = (category: string) => {
-    navigate({
-      pathname: '/category',
-      search: createSearchParams({
-        value: category
-      }).toString()
-    });
-  };
 
   useEffect(() => {
     getCategroies().then(data => setCatecories(data));
@@ -31,7 +23,7 @@ const HomePage = () => {
           categories.map((category, index) => {
             return (
               <Grid size={{ xs: 12, sm: 6 }} key={index}>
-                <CardButton handleClick={() => handleCategroyClick(category)}>{category}</CardButton>
+                <CardButton handleClick={() => navigateToCategoryPage(navigate, category)}>{category}</CardButton>
               </Grid>
             )
           })

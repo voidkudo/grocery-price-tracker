@@ -1,17 +1,17 @@
 import { Box, Chip, Typography } from "@mui/material";
-import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GroceryItem } from "../../types/data";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { getGroceryItemByName } from "../../data/data";
+import useParam from "../../hooks/useParam";
+import { navigateToCategoryPage } from "../navigate";
+import { useNavigate } from "react-router-dom";
 
 const ItemPage = () => {
   const [item, setItem] = useState<GroceryItem>();
 
+  const itemValue = useParam();
   const navigate = useNavigate();
-  const { search } = useLocation();
-  const params = new URLSearchParams(search);
-  const itemValue = params.get('value') ?? '';
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
     {
@@ -53,17 +53,12 @@ const ItemPage = () => {
 
   const rows = item?.records?.sort((a, b) => b.purchaseDate.localeCompare(a.purchaseDate)).map((item, index) => { return { ...item, id: index } }) ?? [];
 
-  const handleCategroyClick = (category: string) => {
-    navigate({
-      pathname: '/category',
-      search: createSearchParams({
-        value: category
-      }).toString()
-    });
-  };
-
   useEffect(() => {
     // TODO: Implement Search Function
+    if (itemValue === undefined) {
+      setItem(undefined);
+      return;
+    }
     getGroceryItemByName(itemValue).then(data => setItem(data));
   }, [itemValue]);
 
@@ -73,8 +68,8 @@ const ItemPage = () => {
         item === undefined ?
           <Typography variant='h6'>Item Not Found</Typography> :
           <>
-            <Typography variant='h3'>{item?.name}</Typography>
-            <Chip label={item?.category} variant='outlined' clickable onClick={() => handleCategroyClick(item?.category)} />
+            <Typography variant='h3'>{item.name}</Typography>
+            <Chip label={item.category} variant='outlined' clickable onClick={() => navigateToCategoryPage(navigate, item.category)} />
             <Box sx={{ width: '100%', height: '80%' }}>
               <DataGrid
                 rows={rows}

@@ -5,10 +5,11 @@ import { GoogleOAuthCredentail } from "../types/googleOAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../stores/store";
 import { resetUser, setUser } from "../stores/slices/userSlice";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import User from "./navBar/User";
 import SearchBar from "./navBar/SearchBar";
 import AddRecordButton from "./navBar/AddRecordButton";
+import { navigateToItemPage } from "../routers/navigate";
 
 const NavBar = () => {
   const user = useSelector((state: RootState) => state.user.value);
@@ -32,14 +33,9 @@ const NavBar = () => {
     dispatch(resetUser());
   };
 
-  const handleItemSearch = (searchValue: string) => {
-    navigate({
-      pathname: '/item',
-      search: createSearchParams({
-        value: searchValue
-      }).toString()
-    });
-  };
+  const handleSearch = (searchValue: string) => {
+    navigateToItemPage(navigate, searchValue);
+  }
 
   const handleAddRecord = () => {
 
@@ -53,7 +49,7 @@ const NavBar = () => {
           <Typography variant='h6' >Grocery Price Tracker</Typography>
         </Button>
         <Box sx={{ flexGrow: 1, padding: '0 1em' }}>
-          <SearchBar handleSearch={handleItemSearch}/>
+          <SearchBar handleSearch={handleSearch}/>
         </Box>
         {
           user === undefined ?
