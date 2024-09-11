@@ -17,46 +17,45 @@
     "Food Basic",
     "T&T Supermarket"
   ],
-  "items": {
-    "Coke": {
-      "category": "Drinks",
+  "items": [
+    {
+      "name": "Coke",
+      "category": "Fruits & Vegetables",
       "records": [
         {
-          "detail": "Coke Zero 2L",
+          "desc": "Coke Zero 2L",
           "brand": "Coca-Cola",
           "price": 1.33,
           "qty": 1,
           "isTaxable": true,
           "store": "No Frills",
-          "purchaseDate": "2024-09-03",
-          "createTimestamp": 1725948320000
+          "purchaseDate": "2024-09-03"
         }
       ]
     },
-    "Yogort": {
+    {
+      "name": "Yogort",
       "category": "Dairy & Eggs",
       "records": [
         {
-          "detail": "Greek Yogert 650g",
+          "desc": "Greek Yogert 650g",
           "brand": "OIKO",
           "price": 5.49,
           "qty": 1,
           "isTaxable": false,
           "store": "No Frills",
-          "purchaseDate": "2024-09-03",
-          "createTimestamp": 1725948330000
+          "purchaseDate": "2024-09-03"
         },
         {
-          "detail": "Yogert 12x100g",
+          "desc": "Yogert 12x100g",
           "brand": "Activia",
           "price": 5.5,
           "qty": 1,
           "isTaxable": false,
           "store": "No Frills",
-          "purchaseDate": "2024-09-03",
-          "createTimestamp": 1725948350000
+          "purchaseDate": "2024-09-03"
         }
       ]
     }
-  }
+  ]
 }
