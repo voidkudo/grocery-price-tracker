@@ -3,6 +3,7 @@ import MainPage from './pages/layouts/MainLayout';
 import ErrorPage from './pages/ErrorPage';
 import HomePage from './pages/HomePage';
 import ItemPage from './pages/ItemPage';
+import CategoryPage from './pages/CategoryPage';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,11 @@ const router = createBrowserRouter([
       {
         path: '/item',
         element: <ItemPage />,
-      }
+      },
+      {
+        path: '/category',
+        element: <CategoryPage />,
+      },
     ],
   },
 ]);
