@@ -25,7 +25,7 @@ const HomePage = () => {
 
   return (
     <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center' }}>
-      <Typography>Please Choose any Category</Typography>
+      <Typography variant='h4'>Search Items By Category</Typography>
       <Grid container spacing={1} maxHeight={'80%'} width={'100%'} justifyContent={'center'} overflow={'auto'}>
         {
           categories.map((category, index) => {

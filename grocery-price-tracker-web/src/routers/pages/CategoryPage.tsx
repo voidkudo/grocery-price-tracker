@@ -6,7 +6,7 @@ import { getGroceryItemNamesByCategory } from "../../data/data";
 import CardButton from "../../components/CardButton";
 
 const CategoryPage = () => {
-  const [items, setItems] = useState<string[]>([]);
+  const [itemNames, setItemNames] = useState<string[]>([]);
 
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -14,27 +14,27 @@ const CategoryPage = () => {
   const categoryValue = params.get('value') ?? '';
   
 
-  const handleItemClick = (item: string) => {
+  const handleItemClick = (itemName: string) => {
     navigate({
       pathname: '/item',
       search: createSearchParams({
-        value: item
+        value: itemName
       }).toString()
     });
   };
 
   useEffect(() => {
-    getGroceryItemNamesByCategory(categoryValue).then(data => setItems(data));
+    getGroceryItemNamesByCategory(categoryValue).then(data => setItemNames(data));
   }, [categoryValue]);
 
   return (
     <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center' }}>
-      <Grid container spacing={1} maxHeight={'80%'} width={'100%'} justifyContent={'center'} overflow={'auto'}>
+      <Grid container spacing={1} height={'80%'} width={'100%'} justifyContent={'center'} overflow={'auto'}>
         {
-          items.map((item, index) => {
+          itemNames.map((itemName, index) => {
             return (
               <Grid size={{ xs: 12, sm: 6 }} key={index}>
-                <CardButton handleClick={() => handleItemClick(item)}>{item}</CardButton>
+                <CardButton handleClick={() => handleItemClick(itemName)}>{itemName}</CardButton>
               </Grid>
             )
           })

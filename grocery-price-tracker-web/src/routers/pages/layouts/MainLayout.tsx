@@ -1,5 +1,5 @@
 import { Box, Container } from "@mui/material"
-import NavBar from "../../../components/navBar/NavBar";
+import NavBar from "../../../components/NavBar";
 import { Outlet } from "react-router-dom";
 
 const MainPage = () => {
