@@ -8,7 +8,7 @@ import { resetUser, setUser } from "../stores/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import User from "./navBar/User";
 import SearchBar from "./navBar/SearchBar";
-import AddRecordButton from "./navBar/AddRecordButton";
+import AddNewButton from "./navBar/AddNewButton";
 import { navigateToItemPage } from "../routers/navigate";
 
 const NavBar = () => {
@@ -55,7 +55,7 @@ const NavBar = () => {
           user === undefined ?
             <GoogleLogin onSuccess={handleGoogleLogin} useOneTap /> :
             <>
-              <AddRecordButton handleAddRecord={handleAddRecord} />
+              <AddNewButton handleAddRecord={handleAddRecord} />
               <User user={user} handleLogout={handleLogout}/>
             </>
         }
