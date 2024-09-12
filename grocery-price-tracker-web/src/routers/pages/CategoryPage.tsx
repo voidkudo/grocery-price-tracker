@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { getGroceryItemNamesByCategory } from "../../data/data";
@@ -23,7 +23,8 @@ const CategoryPage = () => {
 
   return (
     <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center' }}>
-      <Grid container spacing={1} height={'80%'} width={'100%'} justifyContent={'center'} overflow={'auto'}>
+      <Typography variant='h4'>Items in {categoryValue}</Typography>
+      <Grid container spacing={1} height={'80%'} width={'100%'} justifyContent={'center'} alignItems={'center'} alignContent={'start'} overflow={'auto'}>
         {
           itemNames.map((itemName, index) => {
             return (
