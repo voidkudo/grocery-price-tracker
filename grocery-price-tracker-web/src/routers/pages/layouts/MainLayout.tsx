@@ -2,7 +2,7 @@ import { Box, Container } from "@mui/material"
 import NavBar from "../../../components/NavBar";
 import { Outlet } from "react-router-dom";
 
-const MainPage = () => {
+const MainLayout = () => {
 
   return (
     <Box sx={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column'}}>
@@ -14,4 +14,4 @@ const MainPage = () => {
   )
 };
 
-export default MainPage;
+export default MainLayout;
