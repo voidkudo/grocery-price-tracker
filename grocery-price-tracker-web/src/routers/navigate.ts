@@ -1,5 +1,10 @@
 import { createSearchParams, NavigateFunction } from "react-router-dom";
 
+
+export const navigateToHomePage = (navigate: NavigateFunction) => {
+  navigate('/');
+};
+
 export const navigateToCategoryPage = (navigate: NavigateFunction, category: string) => {
   navigate({
     pathname: '/category',
@@ -16,4 +21,12 @@ export const navigateToItemPage = (navigate: NavigateFunction, itemName: string)
       value: itemName
     }).toString()
   });
+};
+
+export const navigateToCreateItemPage = (navigate: NavigateFunction) => {
+  navigate('/createItem');
+};
+
+export const navigateToNotAuthorizedPage = (navigate: NavigateFunction) => {
+  navigate('/notAuthorized');
 };

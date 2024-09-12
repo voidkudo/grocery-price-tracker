@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import User from "./navBar/User";
 import SearchBar from "./navBar/SearchBar";
 import AddNewButton from "./navBar/AddNewButton";
-import { navigateToItemPage } from "../routers/navigate";
+import { navigateToCreateItemPage, navigateToHomePage, navigateToItemPage } from "../routers/navigate";
 
 const NavBar = () => {
   const user = useSelector((state: RootState) => state.user.value);
@@ -17,7 +17,7 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const handleTitleClick = () => {
-    navigate('/');
+    navigateToHomePage(navigate);
   };
 
   const handleGoogleLogin = (res: CredentialResponse) => {
@@ -38,7 +38,7 @@ const NavBar = () => {
   }
 
   const handleAddRecord = () => {
-
+    navigateToCreateItemPage(navigate);
   };
 
 

@@ -20,10 +20,8 @@ const ErrorPage = () => {
   return (
     <Container>
       <Typography variant='h1'>Oops!</Typography>
-      <Typography>Sorry, an unexpected error has occurred.</Typography>
-      <Typography>
-        <Typography variant='inherit'>{getErrorMessage(error)}</Typography>
-      </Typography>
+      <Typography variant='h3'>Sorry, an unexpected error has occurred.</Typography>
+      <Typography>{getErrorMessage(error)}</Typography>
       <Divider />
       <Typography>Click <Link to='/'>HERE</Link> to return to the home page.</Typography>
     </Container>
