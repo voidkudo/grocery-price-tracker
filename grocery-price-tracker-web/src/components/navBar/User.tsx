@@ -5,7 +5,7 @@ import { GoogleAuthCredentail } from "../../types/googleAuth";
 
 interface UserProps {
   user: GoogleAuthCredentail,
-  handleLogout: () => void,
+  handleLogoutClick: () => void,
 };
 
 const User = (props: UserProps) => {
@@ -23,7 +23,7 @@ const User = (props: UserProps) => {
   };
 
   const handleLogoutClick = () => {
-    props.handleLogout();
+    props.handleLogoutClick();
     handleMenuClose();
   };
 

@@ -2,7 +2,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { Button } from '@mui/material';
 
 interface AddNewButtonProps {
-  handleAddRecord: () => void
+  handleClick: () => void
 };
 
 const AddNewButton = (props: AddNewButtonProps) => {
@@ -10,7 +10,7 @@ const AddNewButton = (props: AddNewButtonProps) => {
     <Button
       variant='outlined'
       startIcon={<AddIcon />}
-      onClick={props.handleAddRecord}
+      onClick={props.handleClick}
     >
       Add New
     </Button>

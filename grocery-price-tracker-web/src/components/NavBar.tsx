@@ -1,62 +1,36 @@
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
 import { GoogleAuthCredentail } from "../types/googleAuth";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../stores/store";
-import { resetUser, setUser } from "../stores/slices/userSlice";
-import { useNavigate } from "react-router-dom";
 import User from "./navBar/User";
 import SearchBar from "./navBar/SearchBar";
 import AddNewButton from "./navBar/AddNewButton";
-import { navigateToCreateItemPage, navigateToHomePage, navigateToItemPage } from "../routers/navigate";
 
-const NavBar = () => {
-  const user = useSelector((state: RootState) => state.user.value);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+interface NavBarProps {
+  user?: GoogleAuthCredentail,
+  handleTitleClick: () => void,
+  handleSearch: (searchValue: string) => void,
+  handleGoogleLogin: (res: CredentialResponse) => void,
+  handleAddRecordClick: () => void,
+  handleLogoutClick: () => void,
+}
 
-  const handleTitleClick = () => {
-    navigateToHomePage(navigate);
-  };
-
-  const handleGoogleLogin = (res: CredentialResponse) => {
-    console.log(res);
-    if (res.credential !== undefined) {
-      const credentail = jwtDecode<GoogleAuthCredentail>(res.credential);
-      console.log(credentail);
-      dispatch(setUser(credentail));
-    }
-  };
-
-  const handleLogout = () => {
-    dispatch(resetUser());
-  };
-
-  const handleSearch = (searchValue: string) => {
-    navigateToItemPage(navigate, searchValue);
-  }
-
-  const handleAddRecord = () => {
-    navigateToCreateItemPage(navigate);
-  };
-
+const NavBar = (props: NavBarProps) => {
 
   return (
     <AppBar position='sticky' sx={{ backgroundColor: 'white' }}>
       <Toolbar>
-        <Button onClick={handleTitleClick}>
+        <Button onClick={props.handleTitleClick}>
           <Typography variant='h6' >Grocery Price Tracker</Typography>
         </Button>
-        <Box sx={{ flexGrow: 1, padding: '0 1em' }}>
-          <SearchBar handleSearch={handleSearch}/>
+        <Box sx={{ flexGrow: 1, padding: '0 10em' }}>
+          <SearchBar handleSearch={props.handleSearch} />
         </Box>
         {
-          user === undefined ?
-            <GoogleLogin onSuccess={handleGoogleLogin} useOneTap /> :
+          props.user === undefined ?
+            <GoogleLogin onSuccess={props.handleGoogleLogin} useOneTap /> :
             <>
-              <AddNewButton handleAddRecord={handleAddRecord} />
-              <User user={user} handleLogout={handleLogout}/>
+              <AddNewButton handleClick={props.handleAddRecordClick} />
+              <User user={props.user} handleLogoutClick={props.handleLogoutClick} />
             </>
         }
       </Toolbar>
