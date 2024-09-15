@@ -27,3 +27,10 @@ export const getGroceryItemByName = async (itemName: string) => {
     .then(data => data['items'] as GroceryItem[]);
   return items.find(item => item.name === itemName);
 };
+
+export const getStores = async () => {
+  const stores = await fetch('./mockData.json')
+    .then(res => res.json())
+    .then(data => data['stores'] as string[]);
+  return stores;
+};
