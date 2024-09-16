@@ -13,3 +13,8 @@ export interface GroceryItemRecord {
   store: string,
   purchaseDate: string
 };
+
+export interface CreateGroceryItemRecord extends GroceryItemRecord {
+  category: string,
+  name: string,
+};
