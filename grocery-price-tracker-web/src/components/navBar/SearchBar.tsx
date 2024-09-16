@@ -44,7 +44,7 @@ const SearchBar = (props: SearchBarProps) => {
       disableClearable
       value={searchValue}
       options={options}
-      noOptionsText='No Items Found'
+      noOptionsText='No Item Matches'
       onInputChange={handleSearchInput}
       onChange={handleSearchValueSelect}
       onKeyDown={handleSearchKeyDown}
