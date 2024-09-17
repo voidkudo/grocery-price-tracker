@@ -17,4 +17,7 @@ export interface GroceryItemRecord {
 export interface CreateGroceryItemRecord extends GroceryItemRecord {
   category: string,
   name: string,
+  isNewCategory: boolean,
+  isNewItem: boolean,
+  isNewStore: boolean,
 };
