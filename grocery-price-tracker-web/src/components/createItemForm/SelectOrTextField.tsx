@@ -1,53 +1,52 @@
 import { Autocomplete, Checkbox, FormControlLabel, FormGroup, TextField } from "@mui/material";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent } from "react";
 
 interface SelectOrTextFieldProps {
   textFieldLabel: string,
   selectLabel: string,
   checkboxLabel: string,
   selectOptions: string[],
-  value: string,
+  textValue: string,
+  isChecked: boolean,
   noOptionsText?: string,
-  handleChange: (value: string) => void,
+  handleTextChange: (value: string) => void,
+  handleChecked: (checked: boolean) => void,
 };
 
 const SelectOrTextField = (props: SelectOrTextFieldProps) => {
   const isForceChecked = props.selectOptions.length === 0;
 
-  const [isChecked, setIsChecked] = useState(false);
-
   const handleTextFieldChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    props.handleChange(e.target.value);
+    props.handleTextChange(e.target.value);
   };
 
   const handleSelectChange = (_e: SyntheticEvent, value: string | null) => {
     if (value === null) {
-      props.handleChange('');
+      props.handleTextChange('');
     } else {
-      props.handleChange(value);
+      props.handleTextChange(value);
     }
   };
 
   const handleCheckboxChange = (_e: ChangeEvent<HTMLInputElement>, checked: boolean) => {
-    props.handleChange('');
-    setIsChecked(checked);
+    props.handleChecked(checked);
   };
 
   return (
     <>
       {
-        isForceChecked || isChecked ?
+        isForceChecked || props.isChecked ?
           <TextField
             fullWidth
             label={props.textFieldLabel}
-            value={props.value}
+            value={props.textValue}
             onChange={handleTextFieldChange}
           /> :
           <Autocomplete
             options={props.selectOptions}
             noOptionsText={props.noOptionsText}
             renderInput={(params) => <TextField {...params} label={props.selectLabel} />}
-            value={props.value}
+            value={props.textValue}
             onChange={handleSelectChange}
           />
       }
@@ -55,7 +54,7 @@ const SelectOrTextField = (props: SelectOrTextFieldProps) => {
         <FormControlLabel
           control={<Checkbox
             disabled={isForceChecked}
-            checked={isForceChecked || isChecked}
+            checked={isForceChecked || props.isChecked}
             onChange={handleCheckboxChange}
           />}
           label={props.checkboxLabel}
