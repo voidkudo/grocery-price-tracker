@@ -4,7 +4,7 @@ import ErrorPage from './pages/ErrorPage';
 import HomePage from './pages/HomePage';
 import ItemPage from './pages/ItemPage';
 import CategoryPage from './pages/CategoryPage';
-import CreateItemPage from './pages/CreateItemPage';
+import CreateNewRecordPage from './pages/CreateNewRecordPage';
 import SeedingPage from './pages/SeedingPage';
 
 const router = createBrowserRouter([
@@ -25,8 +25,8 @@ const router = createBrowserRouter([
         element: <CategoryPage />,
       },
       {
-        path: '/createItem',
-        element: <CreateItemPage />,
+        path: '/createNewRecord',
+        element: <CreateNewRecordPage />,
       },
     ],
   },

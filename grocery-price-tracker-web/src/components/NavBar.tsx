@@ -3,7 +3,7 @@ import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { GoogleAuthCredentail } from "../types/googleAuth";
 import User from "./navBar/User";
 import SearchBar from "./navBar/SearchBar";
-import AddNewButton from "./navBar/AddNewButton";
+import AddRecordButton from "./navBar/AddRecordButton";
 
 interface NavBarProps {
   user?: GoogleAuthCredentail,
@@ -29,7 +29,7 @@ const NavBar = (props: NavBarProps) => {
           props.user === undefined ?
             <GoogleLogin onSuccess={props.handleGoogleLogin} useOneTap /> :
             <>
-              <AddNewButton handleClick={props.handleAddRecordClick} />
+              <AddRecordButton handleClick={props.handleAddRecordClick} />
               <User user={props.user} handleLogoutClick={props.handleLogoutClick} />
             </>
         }

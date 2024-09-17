@@ -24,7 +24,7 @@ export const navigateToItemPage = (navigate: NavigateFunction, itemName: string)
 };
 
 export const navigateToCreateItemPage = (navigate: NavigateFunction) => {
-  navigate('/createItem');
+  navigate('/createNewRecord');
 };
 
 export const navigateToNotAuthorizedPage = (navigate: NavigateFunction) => {

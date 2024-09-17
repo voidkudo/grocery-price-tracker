@@ -1,9 +1,9 @@
 import { Button, Checkbox, FormControlLabel, FormGroup, Stack, TextField } from "@mui/material";
-import SelectOrTextField from "./createItemForm/SelectOrTextField";
+import SelectOrTextField from "./CreateNewRecordForm/SelectOrTextField";
 import { CreateGroceryItemRecord } from "../types/data";
 import { ChangeEvent, useEffect, useState } from "react";
 
-interface CreateItemFormProps {
+interface CreateNewRecordFormProps {
   getCategoryOptions: () => Promise<string[]>,
   getItemOptionsByCategory: (category: string) => Promise<string[]>,
   getStoreOptions: () => Promise<string[]>,
@@ -25,7 +25,7 @@ const recordInit: CreateGroceryItemRecord = {
   isNewStore: false,
 };
 
-const CreateItemForm = (props: CreateItemFormProps) => {
+const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
   const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
   const [itemOptions, setItemOptions] = useState<string[]>([]);
   const [storeOptions, setStoreOptions] = useState<string[]>([]);
@@ -187,4 +187,4 @@ const CreateItemForm = (props: CreateItemFormProps) => {
   )
 };
 
-export default CreateItemForm;
+export default CreateNewRecordForm;

@@ -1,12 +1,12 @@
 
 import { Box, Typography } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
-import CreateItemForm from "../../components/CreateItemForm";
+import CreateNewRecordForm from "../../components/CreateNewRecordForm";
 import { CreateGroceryItemRecord } from "../../types/data";
 import { getCategroies, getGroceryItemNamesByCategory } from "../../data/data";
 import { addStore, getStores } from "../../firebase/firestore";
 
-const CreateItemPage = () => {
+const CreateNewRecordPage = () => {
   const user = useAuth();
 
   const handleCreateItemFormSubmit = (record: CreateGroceryItemRecord) => {
@@ -19,8 +19,8 @@ const CreateItemPage = () => {
 
   return (
     <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center' }}>
-      <Typography variant='h4'>Add New Price Record</Typography>
-      <CreateItemForm
+      <Typography variant='h4'>Create New Record</Typography>
+      <CreateNewRecordForm
         getCategoryOptions={getCategroies}
         getItemOptionsByCategory={getGroceryItemNamesByCategory}
         getStoreOptions={getStores}
@@ -30,4 +30,4 @@ const CreateItemPage = () => {
   )
 };
 
-export default CreateItemPage;
+export default CreateNewRecordPage;

@@ -1,20 +1,20 @@
 import AddIcon from '@mui/icons-material/Add';
 import { Button } from '@mui/material';
 
-interface AddNewButtonProps {
+interface AddRecordButtonProps {
   handleClick: () => void
 };
 
-const AddNewButton = (props: AddNewButtonProps) => {
+const AddRecordButton = (props: AddRecordButtonProps) => {
   return (
     <Button
       variant='outlined'
       startIcon={<AddIcon />}
       onClick={props.handleClick}
     >
-      Add New
+      Add Record
     </Button>
   )
 };
 
-export default AddNewButton;
+export default AddRecordButton;
