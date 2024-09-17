@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import ItemPage from './pages/ItemPage';
 import CategoryPage from './pages/CategoryPage';
 import CreateItemPage from './pages/CreateItemPage';
+import SeedingPage from './pages/SeedingPage';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,11 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: '/seeding',
+    element: <SeedingPage />,
+    errorElement: <ErrorPage />,
+  }
 ]);
 
 export default router;
