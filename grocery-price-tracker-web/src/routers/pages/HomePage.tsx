@@ -1,18 +1,18 @@
 import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2"
 import { useEffect, useState } from "react";
-import { getCategroies } from "../../data/data";
 import CardButton from "../../components/CardButton";
 import { navigateToCategoryPage } from "../navigate";
 import { useNavigate } from "react-router-dom";
+import { getCategoryOptions } from "../../firebase/firestore";
 
 const HomePage = () => {
-  const [categories, setCatecories] = useState<string[]>([]);
+  const [categoryOptions, setCatecoryOptions] = useState<string[]>([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    getCategroies().then(data => setCatecories(data));
+    getCategoryOptions().then(options => setCatecoryOptions(options));
   }, []);
 
   return (
@@ -20,7 +20,7 @@ const HomePage = () => {
       <Typography variant='h4'>Find Items By Category</Typography>
       <Grid container spacing={1} height={'80%'} width={'100%'} padding={'5% 0'} justifyContent={'center'} alignItems={'center'} alignContent={'start'} overflow={'auto'}>
         {
-          categories.map((category, index) => {
+          categoryOptions.map((category, index) => {
             return (
               <Grid size={{ xs: 12, sm: 6 }} key={index}>
                 <CardButton handleClick={() => navigateToCategoryPage(navigate, category)}>{category}</CardButton>
