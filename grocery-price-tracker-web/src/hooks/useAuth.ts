@@ -8,6 +8,10 @@ const useAuth = () => {
     throw Error('Not Authorized.');
   }
 
+  if (user.email === undefined) {
+    throw Error('Failed to get email.');
+  }
+
   return user;
 };
 
