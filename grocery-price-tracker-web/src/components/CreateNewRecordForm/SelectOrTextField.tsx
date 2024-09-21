@@ -9,6 +9,7 @@ interface SelectOrTextFieldProps {
   textValue: string,
   isChecked: boolean,
   noOptionsText?: string,
+  isDisabled?: boolean,
   handleTextChange: (value: string) => void,
   handleChecked: (checked: boolean) => void,
 };
@@ -38,11 +39,13 @@ const SelectOrTextField = (props: SelectOrTextFieldProps) => {
         isForceChecked || props.isChecked ?
           <TextField
             fullWidth
+            disabled={props.isDisabled}
             label={props.textFieldLabel}
             value={props.textValue}
             onChange={handleTextFieldChange}
           /> :
           <Autocomplete
+            disabled={props.isDisabled}
             options={props.selectOptions}
             noOptionsText={props.noOptionsText}
             renderInput={(params) => <TextField {...params} label={props.selectLabel} />}
@@ -53,7 +56,7 @@ const SelectOrTextField = (props: SelectOrTextFieldProps) => {
       <FormGroup>
         <FormControlLabel
           control={<Checkbox
-            disabled={isForceChecked}
+            disabled={isForceChecked || props.isDisabled}
             checked={isForceChecked || props.isChecked}
             onChange={handleCheckboxChange}
           />}

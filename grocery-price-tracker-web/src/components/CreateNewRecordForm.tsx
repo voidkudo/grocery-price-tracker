@@ -160,6 +160,7 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
         selectOptions={itemOptions}
         textValue={record.name}
         isChecked={record.isNewItem}
+        isDisabled={record.category === ''}
         handleTextChange={handleItemChange}
         handleChecked={handleItemChecked}
       />
