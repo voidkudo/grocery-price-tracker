@@ -1,7 +1,6 @@
 import { Search } from "@mui/icons-material";
 import { Autocomplete, IconButton, InputAdornment, TextField } from "@mui/material";
 import { KeyboardEvent, SyntheticEvent, useEffect, useState } from "react";
-import { getAllItemOptions } from "../../firebase/firestore";
 
 interface SearchBarProps {
   getItemOptions: () => Promise<string[]>,
