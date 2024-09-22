@@ -83,3 +83,11 @@ export const getPriceRecordsByItem = async () => {
   snapshot.forEach(store => stores.push(store.id))
   return stores;
 };
+
+export const getItemByName = async (itemName: string) => {
+  const snapshot = await getDoc(doc(firestore, 'items', itemName));
+  if (!snapshot.exists()) {
+    return undefined;
+  }
+  return snapshot.data() as FireStoreItemDoc;
+};
