@@ -8,6 +8,7 @@ import { CredentialResponse } from "@react-oauth/google";
 import { GoogleAuthCredentail } from "../../../types/googleAuth";
 import { jwtDecode } from "jwt-decode";
 import { resetUser, setUser } from "../../../stores/slices/userSlice";
+import { getAllItemOptions } from "../../../firebase/firestore";
 
 const MainLayout = () => {
   const user = useSelector((state: RootState) => state.user.value);
@@ -39,11 +40,11 @@ const MainLayout = () => {
     dispatch(resetUser());
   };
 
-
   return (
     <Box sx={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column' }}>
       <NavBar
         user={user}
+        getSearchOption={getAllItemOptions}
         handleTitleClick={handleTitleClick}
         handleSearch={handleSearch}
         handleGoogleLogin={handleGoogleLogin}

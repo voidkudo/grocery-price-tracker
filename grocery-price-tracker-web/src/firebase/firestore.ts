@@ -42,7 +42,6 @@ export const getItemOptionsByCategory = async (categoryName: string) => {
 export const getAllItemOptions = async () => {
   let items: string[] = [];
   const snapshot = await getDocs(collection(firestore, 'items'));
-
   snapshot.forEach(item => { items.push(item.id) });
   return items;
 };
@@ -83,12 +82,4 @@ export const getPriceRecordsByItem = async () => {
   const snapshot = await getDocs(collection(firestore, 'stores'));
   snapshot.forEach(store => stores.push(store.id))
   return stores;
-};
-
-export const getItemByName = async (itemName: string) => {
-  const snapshot = await getDoc(doc(firestore, 'items', itemName));
-  if (!snapshot.exists()) {
-    return undefined;
-  }
-  return snapshot.data() as FireStoreItemDoc;
 };

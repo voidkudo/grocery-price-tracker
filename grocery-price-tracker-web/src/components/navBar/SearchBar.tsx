@@ -1,9 +1,10 @@
 import { Search } from "@mui/icons-material";
 import { Autocomplete, IconButton, InputAdornment, TextField } from "@mui/material";
 import { KeyboardEvent, SyntheticEvent, useEffect, useState } from "react";
-import { getAllGroceryItemNames } from "../../data/data";
+import { getAllItemOptions } from "../../firebase/firestore";
 
 interface SearchBarProps {
+  getItemOptions: () => Promise<string[]>,
   handleSearch: (value: string) => void,
 };
 
@@ -33,10 +34,10 @@ const SearchBar = (props: SearchBarProps) => {
 
   const handleSearchIconClick = () => {
     props.handleSearch(searchValue.trim());
-  }
+  };
 
   useEffect(() => {
-    getAllGroceryItemNames().then(data => setOptions(data));
+    props.getItemOptions().then(options => setOptions(options));
   }, []);
 
   return (

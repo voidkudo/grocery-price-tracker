@@ -7,6 +7,7 @@ import AddRecordButton from "./navBar/AddRecordButton";
 
 interface NavBarProps {
   user?: GoogleAuthCredentail,
+  getSearchOption: () => Promise<string[]>,
   handleTitleClick: () => void,
   handleSearch: (searchValue: string) => void,
   handleGoogleLogin: (res: CredentialResponse) => void,
@@ -23,7 +24,7 @@ const NavBar = (props: NavBarProps) => {
           <Typography variant='h6' >Grocery Price Tracker</Typography>
         </Button>
         <Box sx={{ flexGrow: 1, padding: '0 10em' }}>
-          <SearchBar handleSearch={props.handleSearch} />
+          <SearchBar getItemOptions={props.getSearchOption} handleSearch={props.handleSearch} />
         </Box>
         {
           props.user === undefined ?
