@@ -1,24 +1,24 @@
 import { Button, Checkbox, FormControlLabel, FormGroup, Stack, TextField } from "@mui/material";
 import SelectOrTextField from "./CreateNewRecordForm/SelectOrTextField";
-import { CreateGroceryItemRecord } from "../types/data";
 import { ChangeEvent, useEffect, useState } from "react";
+import { GroceryItemPriceRecord } from "../types/createNewRecordForm";
 
 interface CreateNewRecordFormProps {
   getCategoryOptions: () => Promise<string[]>,
   getItemOptionsByCategory: (category: string) => Promise<string[]>,
   getStoreOptions: () => Promise<string[]>,
-  handleSubmit: (record: CreateGroceryItemRecord) => void,
+  handleSubmit: (record: GroceryItemPriceRecord) => void,
 };
 
-const recordInit: CreateGroceryItemRecord = {
+const recordInit: GroceryItemPriceRecord = {
   category: '',
-  name: '',
-  desc: '',
+  itemName: '',
+  itemDesc: '',
   brand: '',
   price: 0.01,
   qty: 1,
   isTaxable: false,
-  store: '',
+  storeName: '',
   purchaseDate: new Date().toISOString().split('T')[0],
   isNewCategory: false,
   isNewItem: false,
@@ -30,7 +30,7 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
   const [itemOptions, setItemOptions] = useState<string[]>([]);
   const [storeOptions, setStoreOptions] = useState<string[]>([]);
 
-  const [record, setRecord] = useState<CreateGroceryItemRecord>(recordInit);
+  const [record, setRecord] = useState<GroceryItemPriceRecord>(recordInit);
 
   const handleCategoryChecked = (isChecked: boolean) => {
     setRecord({
@@ -51,7 +51,7 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
   const handleItemChecked = (isChecked: boolean) => {
     setRecord({
       ...record,
-      name: '',
+      itemName: '',
       isNewItem: isChecked,
     })
   };
@@ -59,14 +59,14 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
   const handleItemChange = (value: string) => {
     setRecord({
       ...record,
-      name: value,
+      itemName: value,
     });
   };
 
   const handleDescriptionChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setRecord({
       ...record,
-      desc: e.target.value,
+      itemDesc: e.target.value,
     })
   };
 
@@ -101,7 +101,7 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
   const handleStoreChecked = (isChecked: boolean) => {
     setRecord({
       ...record,
-      store: '',
+      storeName: '',
       isNewStore: isChecked,
     })
   };
@@ -109,7 +109,7 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
   const handleStoreChange = (value: string) => {
     setRecord({
       ...record,
-      store: value,
+      storeName: value,
     });
   };
 
@@ -158,16 +158,16 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
         selectLabel='Select Item'
         checkboxLabel='New Item'
         selectOptions={itemOptions}
-        textValue={record.name}
+        textValue={record.itemName}
         isChecked={record.isNewItem}
         isDisabled={record.category === ''}
         handleTextChange={handleItemChange}
         handleChecked={handleItemChecked}
       />
-      <TextField label='Description' value={record.desc} onChange={handleDescriptionChange} />
-      <TextField label='Brand' value={record.brand} onChange={handleBrandChange} />
+      <TextField label='Description' required value={record.itemDesc} onChange={handleDescriptionChange} />
+      <TextField label='Brand (Optional)' value={record.brand} onChange={handleBrandChange} />
       <TextField label='QTY' type='number' value={record.qty} onChange={handleQtyChange} />
-      <TextField label='Price' type='number' value={record.price} onChange={handlePriceChange} />
+      <TextField label='Price' required type='number' value={record.price} onChange={handlePriceChange} />
       <FormGroup>
         <FormControlLabel control={<Checkbox checked={record.isTaxable} onChange={handleIsTaxableChange} />} label='HST/GST' />
       </FormGroup>
@@ -176,7 +176,7 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
         selectLabel='Select Store'
         checkboxLabel='New Store'
         selectOptions={storeOptions}
-        textValue={record.store}
+        textValue={record.storeName}
         isChecked={record.isNewStore}
         handleTextChange={handleStoreChange}
         handleChecked={handleStoreChecked}

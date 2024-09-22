@@ -1,24 +1,24 @@
 import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
-import { getGroceryItemNamesByCategory } from "../../data/data";
 import CardButton from "../../components/CardButton";
 import useParam from "../../hooks/useParam";
 import { navigateToItemPage } from "../navigate";
 import { useNavigate } from "react-router-dom";
+import { getItemOptionsByCategory } from "../../firebase/firestore";
 
 const CategoryPage = () => {
-  const [itemNames, setItemNames] = useState<string[]>([]);
+  const [itemOptions, setItemOptions] = useState<string[]>([]);
 
   const categoryValue = useParam();
   const navigate = useNavigate();
   
   useEffect(() => {
     if (categoryValue === undefined) {
-      setItemNames([]);
+      setItemOptions([]);
       return;
     }
-    getGroceryItemNamesByCategory(categoryValue).then(data => setItemNames(data));
+    getItemOptionsByCategory(categoryValue).then(items => setItemOptions(items));
   }, [categoryValue]);
 
   return (
@@ -26,10 +26,10 @@ const CategoryPage = () => {
       <Typography variant='h4'>Items in {categoryValue}</Typography>
       <Grid container spacing={1} height={'80%'} width={'100%'} padding={'5% 0'} justifyContent={'center'} alignItems={'center'} alignContent={'start'} overflow={'auto'}>
         {
-          itemNames.map((itemName, index) => {
+          itemOptions.map((item, index) => {
             return (
               <Grid size={{ xs: 12, sm: 6 }} key={index}>
-                <CardButton handleClick={() => navigateToItemPage(navigate, itemName)}>{itemName}</CardButton>
+                <CardButton handleClick={() => navigateToItemPage(navigate, item)}>{item}</CardButton>
               </Grid>
             )
           })

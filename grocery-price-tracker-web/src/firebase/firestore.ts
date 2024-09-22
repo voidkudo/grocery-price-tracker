@@ -1,50 +1,85 @@
-import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore"
+import { arrayUnion, collection, doc, getDoc, getDocs, setDoc, Timestamp } from "firebase/firestore"
 import { firestore } from "./firebase"
-import { FireStoreMetadataOptions } from "../types/firestore";
+import { FireStoreBase, FireStoreCategoryDoc, FireStoreItemDoc, FireStoreItemPriceRecord, } from "../types/firestore";
 
-const optionsRef = doc(firestore, 'metadata', 'options');
-
-export const addCategory = async (categoryName: string) => {
-  updateDoc(optionsRef, 'categories', arrayUnion(categoryName))
+export const addCategoryOption = async (categoryName: string, username: string) => {
+  const categoryDoc: FireStoreCategoryDoc = {
+    creationTimestamp: Timestamp.now(),
+    createdBy: username,
+    items: []
+  };
+  setDoc(doc(firestore, 'categories', categoryName), categoryDoc);
 };
 
-export const getCategories = async () => {
+export const getCategoryOptions = async () => {
   let categories: string[] = [];
-  const optionsSnap = await getDoc(optionsRef);
+  const snapshot = await getDocs(collection(firestore, 'categories'));
 
-  if (optionsSnap.exists()) {
-    categories = (optionsSnap.data() as FireStoreMetadataOptions).categories;
-  }
-
+  snapshot.forEach(doc => categories.push(doc.id));
   return categories;
 };
 
-export const addItem = async (itemName: string) => {
-  updateDoc(optionsRef, 'items', arrayUnion(itemName))
+export const addItemOptionByCategory = async (itemName: string, categoryName: string, username: string) => {
+  const itemDoc: FireStoreItemDoc = {
+    category: categoryName,
+    creationTimestamp: Timestamp.now(),
+    createdBy: username,
+    priceRecords: [],
+  };
+  setDoc(doc(firestore, 'categories', categoryName), { items: arrayUnion(itemName) })
+  setDoc(doc(firestore, 'items', itemName), itemDoc);
 };
 
-export const getAllItems = async () => {
-  let categories: string[] = [];
-  const optionsSnap = await getDoc(optionsRef);
-
-  if (optionsSnap.exists()) {
-    categories = (optionsSnap.data() as FireStoreMetadataOptions).items;
+export const getItemOptionsByCategory = async (categoryName: string) => {
+  let items: string[] = [];
+  const snapshot = await getDoc(doc(firestore, 'categories', categoryName));
+  if (snapshot.exists()) {
+    items = (snapshot.data() as FireStoreCategoryDoc).items;
   }
-
-  return categories;
+  return items;
 };
 
-export const addStore = async (storeName: string) => {
-  updateDoc(optionsRef, 'stores', arrayUnion(storeName))
+export const getAllItemOptions = async () => {
+  let items: string[] = [];
+  const snapshot = await getDocs(collection(firestore, 'items'));
+
+  snapshot.forEach(item => { items.push(item.id) });
+  return items;
 };
 
-export const getStores = async () => {
+export const addStoreOption = async (storeName: string, username: string) => {
+  const storeDoc: FireStoreBase = {
+    creationTimestamp: Timestamp.now(),
+    createdBy: username,
+  };
+
+  setDoc(doc(firestore, 'stores', storeName), storeDoc);
+};
+
+export const getStoreOptions = async () => {
   let stores: string[] = [];
-  const optionsSnap = await getDoc(optionsRef);
+  const snapshot = await getDocs(collection(firestore, 'stores'));
+  snapshot.forEach(store => stores.push(store.id))
+  return stores;
+};
 
-  if (optionsSnap.exists()) {
-    stores = (optionsSnap.data() as FireStoreMetadataOptions).stores;
-  }
+export const addPriceRecordByItem = async (itemName: string, itemDesc: string, price: number, qty: number, storeName: string, isTaxable: boolean, purchaseDate: string, username: string) => {
+  const priceRecord: FireStoreItemPriceRecord = {
+    itemDesc: itemDesc,
+    isTaxable: isTaxable,
+    storeName: storeName,
+    price: price,
+    qty: qty,
+    purchaseDate: purchaseDate,
+    creationTimestamp: Timestamp.now(),
+    createdBy: username,
+  };
+  setDoc(doc(firestore, 'items', itemName), { priceRecords: arrayUnion(priceRecord) });
+};
 
+export const getPriceRecordsByItem = async () => {
+  let stores: string[] = [];
+  const snapshot = await getDocs(collection(firestore, 'stores'));
+  snapshot.forEach(store => stores.push(store.id))
   return stores;
 };

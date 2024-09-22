@@ -8,24 +8,24 @@ const SeedingPage = () => {
   const [storeOptions, setStoreOptions] = useState<string[]>();
 
   const handleSeedCategoriesClick = () => {
-    addCategoryOption('Fruits & Vegetables');
-    addCategoryOption('Pantry');
-    addCategoryOption('Dairy & Eggs');
-    addCategoryOption('Meat');
-    addCategoryOption('Deli');
-    addCategoryOption('Snack');
-    addCategoryOption('Frozen Food');
-    addCategoryOption('Bakery');
-    addCategoryOption('Drinks');
-    addCategoryOption('Personal');
-    addCategoryOption('Household');
+    addCategoryOption('Fruits & Vegetables', 'System');
+    addCategoryOption('Pantry', 'System');
+    addCategoryOption('Dairy & Eggs', 'System');
+    addCategoryOption('Meat', 'System');
+    addCategoryOption('Deli', 'System');
+    addCategoryOption('Snack', 'System');
+    addCategoryOption('Frozen Food', 'System');
+    addCategoryOption('Bakery', 'System');
+    addCategoryOption('Drinks', 'System');
+    addCategoryOption('Personal', 'System');
+    addCategoryOption('Household', 'System');
     loadCategories();
   };
 
   const handleSeedStoresClick = () => {
-    addStoreOption('Food Basic');
-    addStoreOption('No Frills');
-    addStoreOption('T&T Supermarket');
+    addStoreOption('Food Basic', 'System');
+    addStoreOption('No Frills', 'System');
+    addStoreOption('T&T Supermarket', 'System');
     loadStores();
   };
 
