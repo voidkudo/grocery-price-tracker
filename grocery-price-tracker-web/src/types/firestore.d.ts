@@ -16,7 +16,7 @@ export interface FireStoreItemDoc extends FireStoreBase {
 
 export interface FireStoreItemPriceRecord extends FireStoreBase {
   itemDesc: string,
-  brand?: string,
+  brand: string,
   isTaxable: boolean,
   price: number,
   qty: number,

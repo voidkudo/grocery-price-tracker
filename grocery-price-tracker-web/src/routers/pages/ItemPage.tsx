@@ -1,22 +1,22 @@
 import { Box, Chip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { GroceryItem } from "../../types/data";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { getGroceryItemByName } from "../../data/data";
 import useParam from "../../hooks/useParam";
 import { navigateToCategoryPage } from "../navigate";
 import { useNavigate } from "react-router-dom";
+import { FireStoreItemDoc } from "../../types/firestore";
+import { getItemByName } from "../../firebase/firestore";
 
 const ItemPage = () => {
-  const [item, setItem] = useState<GroceryItem>();
+  const [item, setItem] = useState<FireStoreItemDoc>();
 
   const itemValue = useParam();
   const navigate = useNavigate();
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
     {
-      field: 'desc',
-      headerName: 'Product',
+      field: 'itemDesc',
+      headerName: 'Item Description',
       flex: 1,
     },
     {
@@ -40,7 +40,7 @@ const ItemPage = () => {
       width: 150,
     },
     {
-      field: 'store',
+      field: 'storeName',
       headerName: 'Store',
       width: 150,
     },
@@ -51,7 +51,7 @@ const ItemPage = () => {
     }
   ];
 
-  const rows = item?.records?.sort((a, b) => b.purchaseDate.localeCompare(a.purchaseDate)).map((item, index) => { return { ...item, id: index } }) ?? [];
+  const rows = item?.priceRecords?.sort((a, b) => b.purchaseDate.localeCompare(a.purchaseDate)).map((item, index) => { return { ...item, id: index } }) ?? [];
 
   useEffect(() => {
     // TODO: Implement Search Function
@@ -59,7 +59,8 @@ const ItemPage = () => {
       setItem(undefined);
       return;
     }
-    getGroceryItemByName(itemValue).then(data => setItem(data));
+    
+    getItemByName(itemValue).then(item => setItem(item));
   }, [itemValue]);
 
   return (
@@ -68,7 +69,7 @@ const ItemPage = () => {
         item === undefined ?
           <Typography variant='h6'>Item Not Found</Typography> :
           <>
-            <Typography variant='h3'>{item.name}</Typography>
+            <Typography variant='h3'>{itemValue}</Typography>
             <Chip label={item.category} variant='outlined' clickable onClick={() => navigateToCategoryPage(navigate, item.category)} />
             <Box sx={{ width: '100%', height: '80%' }}>
               <DataGrid

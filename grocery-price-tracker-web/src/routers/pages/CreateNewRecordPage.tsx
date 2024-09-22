@@ -18,7 +18,7 @@ const CreateNewRecordPage = () => {
     if (record.isNewItem) {
       addItemOptionByCategory(record.itemName, record.category, user.email!);
     }
-    addPriceRecordByItem(record.itemName, record.itemDesc, record.price, record.qty, record.storeName, record.isTaxable, record.purchaseDate, user.email!);
+    addPriceRecordByItem(record.itemName, record.itemDesc, record.brand, record.price, record.qty, record.storeName, record.isTaxable, record.purchaseDate, user.email!);
   };
 
   return (

@@ -8,7 +8,7 @@ export const addCategoryOption = async (categoryName: string, username: string) 
     createdBy: username,
     items: []
   };
-  setDoc(doc(firestore, 'categories', categoryName), categoryDoc);
+  setDoc(doc(firestore, 'categories', categoryName), categoryDoc, { merge: true });
 };
 
 export const getCategoryOptions = async () => {
@@ -26,8 +26,8 @@ export const addItemOptionByCategory = async (itemName: string, categoryName: st
     createdBy: username,
     priceRecords: [],
   };
-  setDoc(doc(firestore, 'categories', categoryName), { items: arrayUnion(itemName) })
-  setDoc(doc(firestore, 'items', itemName), itemDoc);
+  setDoc(doc(firestore, 'categories', categoryName), { items: arrayUnion(itemName) }, { merge: true })
+  setDoc(doc(firestore, 'items', itemName), itemDoc, { merge: true });
 };
 
 export const getItemOptionsByCategory = async (categoryName: string) => {
@@ -53,7 +53,7 @@ export const addStoreOption = async (storeName: string, username: string) => {
     createdBy: username,
   };
 
-  setDoc(doc(firestore, 'stores', storeName), storeDoc);
+  setDoc(doc(firestore, 'stores', storeName), storeDoc, { merge: true });
 };
 
 export const getStoreOptions = async () => {
@@ -63,18 +63,19 @@ export const getStoreOptions = async () => {
   return stores;
 };
 
-export const addPriceRecordByItem = async (itemName: string, itemDesc: string, price: number, qty: number, storeName: string, isTaxable: boolean, purchaseDate: string, username: string) => {
+export const addPriceRecordByItem = async (itemName: string, itemDesc: string, brand: string, price: number, qty: number, storeName: string, isTaxable: boolean, purchaseDate: string, username: string) => {
   const priceRecord: FireStoreItemPriceRecord = {
     itemDesc: itemDesc,
+    brand: brand,
     isTaxable: isTaxable,
-    storeName: storeName,
     price: price,
     qty: qty,
+    storeName: storeName,
     purchaseDate: purchaseDate,
     creationTimestamp: Timestamp.now(),
     createdBy: username,
   };
-  setDoc(doc(firestore, 'items', itemName), { priceRecords: arrayUnion(priceRecord) });
+  setDoc(doc(firestore, 'items', itemName), { priceRecords: arrayUnion(priceRecord) }, { merge: true });
 };
 
 export const getPriceRecordsByItem = async () => {
@@ -82,4 +83,12 @@ export const getPriceRecordsByItem = async () => {
   const snapshot = await getDocs(collection(firestore, 'stores'));
   snapshot.forEach(store => stores.push(store.id))
   return stores;
+};
+
+export const getItemByName = async (itemName: string) => {
+  const snapshot = await getDoc(doc(firestore, 'items', itemName));
+  if (!snapshot.exists()) {
+    return undefined;
+  }
+  return snapshot.data() as FireStoreItemDoc;
 };

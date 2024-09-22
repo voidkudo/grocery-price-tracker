@@ -164,10 +164,10 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
         handleTextChange={handleItemChange}
         handleChecked={handleItemChecked}
       />
-      <TextField label='Description' required value={record.itemDesc} onChange={handleDescriptionChange} />
+      <TextField label='Description' value={record.itemDesc} onChange={handleDescriptionChange} />
       <TextField label='Brand (Optional)' value={record.brand} onChange={handleBrandChange} />
       <TextField label='QTY' type='number' value={record.qty} onChange={handleQtyChange} />
-      <TextField label='Price' required type='number' value={record.price} onChange={handlePriceChange} />
+      <TextField label='Price' type='number' value={record.price} onChange={handlePriceChange} />
       <FormGroup>
         <FormControlLabel control={<Checkbox checked={record.isTaxable} onChange={handleIsTaxableChange} />} label='HST/GST' />
       </FormGroup>
