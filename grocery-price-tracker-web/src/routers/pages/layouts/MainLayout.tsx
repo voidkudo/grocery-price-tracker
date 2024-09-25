@@ -4,11 +4,9 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../stores/store";
 import { navigateToCreateItemPage, navigateToHomePage, navigateToItemPage } from "../../navigate";
-import { CredentialResponse } from "@react-oauth/google";
-import { GoogleAuthCredentail } from "../../../types/googleAuth";
-import { jwtDecode } from "jwt-decode";
 import { resetUser, setUser } from "../../../stores/slices/userSlice";
 import { getAllItemOptions } from "../../../firebase/firestore";
+import { googleSignIn, googleSignOut } from "../../../firebase/googleAuth";
 
 const MainLayout = () => {
   const user = useSelector((state: RootState) => state.user.value);
@@ -25,19 +23,25 @@ const MainLayout = () => {
     navigateToItemPage(navigate, searchValue);
   }
 
-  const handleGoogleLogin = (res: CredentialResponse) => {
-    if (res.credential !== undefined) {
-      const credentail = jwtDecode<GoogleAuthCredentail>(res.credential);
-      dispatch(setUser(credentail));
-    }
+  const handleSignIn = () => {
+    googleSignIn().then(user => {
+      if (user !== undefined) {
+        dispatch(setUser(user));
+      }
+    })
   };
 
   const handleAddRecordClick = () => {
     navigateToCreateItemPage(navigate);
   };
 
-  const handleLogoutClick = () => {
-    dispatch(resetUser());
+  const handleSignOutClick = () => {
+    googleSignOut().then(isSuccess => {
+      if (isSuccess) {
+        dispatch(resetUser());
+      }
+    })
+    
   };
 
   return (
@@ -47,9 +51,9 @@ const MainLayout = () => {
         getSearchOption={getAllItemOptions}
         handleTitleClick={handleTitleClick}
         handleSearch={handleSearch}
-        handleGoogleLogin={handleGoogleLogin}
+        handleSignInClick={handleSignIn}
         handleAddRecordClick={handleAddRecordClick}
-        handleLogoutClick={handleLogoutClick}
+        handleSignOutClick={handleSignOutClick}
       />
       <Container sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'auto' }}>
         <Outlet />

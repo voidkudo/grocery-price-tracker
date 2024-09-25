@@ -1,14 +1,16 @@
-import { Avatar, Box, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
+import { Avatar, Box, Button, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { AccountCircle, Logout, Settings } from "@mui/icons-material";
-import { GoogleAuthCredentail } from "../../types/googleAuth";
+import { User } from "firebase/auth";
+import GoogleIcon from '@mui/icons-material/Google';
 
-interface UserProps {
-  user: GoogleAuthCredentail,
-  handleLogoutClick: () => void,
+interface AccountProps {
+  user?: User,
+  handleSignInClick: () => void,
+  handleSignOutClick: () => void,
 };
 
-const User = (props: UserProps) => {
+const Account = (props: AccountProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -22,17 +24,22 @@ const User = (props: UserProps) => {
     setIsMenuOpen(false);
   };
 
-  const handleLogoutClick = () => {
-    props.handleLogoutClick();
+  const handleSignOutClick = () => {
+    props.handleSignOutClick();
     handleMenuClose();
   };
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Tooltip title='Account'>
-        <IconButton onClick={handleAvatarClick}>
-          <Avatar src={props.user?.picture} />
-        </IconButton>
+      <Tooltip title={props.user === undefined ? 'Sign In' : 'Account'}>
+        {
+          props.user === undefined ?
+            <Button variant='outlined' startIcon={<GoogleIcon />} onClick={props.handleSignInClick}>Sign In With Google</Button> :
+            <IconButton onClick={handleAvatarClick}>
+              <Avatar src={props.user?.photoURL ?? undefined} />
+            </IconButton>
+        }
+
       </Tooltip>
       <Menu anchorEl={anchorEl} open={isMenuOpen} onClose={handleMenuClose}>
         <MenuItem>
@@ -47,15 +54,15 @@ const User = (props: UserProps) => {
           </ListItemIcon>
           Setting
         </MenuItem>
-        <MenuItem onClick={handleLogoutClick} >
+        <MenuItem onClick={handleSignOutClick} >
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          Logout
+          Sign Out
         </MenuItem>
       </Menu>
     </Box>
   )
 };
 
-export default User;
+export default Account;

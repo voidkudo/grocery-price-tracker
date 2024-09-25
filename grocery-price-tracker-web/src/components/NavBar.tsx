@@ -1,18 +1,17 @@
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import { GoogleAuthCredentail } from "../types/googleAuth";
-import User from "./navBar/User";
+import Account from "./navBar/Account";
 import SearchBar from "./navBar/SearchBar";
 import AddRecordButton from "./navBar/AddRecordButton";
+import { User } from "firebase/auth";
 
 interface NavBarProps {
-  user?: GoogleAuthCredentail,
+  user?: User,
   getSearchOption: () => Promise<string[]>,
   handleTitleClick: () => void,
   handleSearch: (searchValue: string) => void,
-  handleGoogleLogin: (res: CredentialResponse) => void,
+  handleSignInClick: () => void,
   handleAddRecordClick: () => void,
-  handleLogoutClick: () => void,
+  handleSignOutClick: () => void,
 }
 
 const NavBar = (props: NavBarProps) => {
@@ -27,13 +26,10 @@ const NavBar = (props: NavBarProps) => {
           <SearchBar getItemOptions={props.getSearchOption} handleSearch={props.handleSearch} />
         </Box>
         {
-          props.user === undefined ?
-            <GoogleLogin onSuccess={props.handleGoogleLogin} useOneTap /> :
-            <>
-              <AddRecordButton handleClick={props.handleAddRecordClick} />
-              <User user={props.user} handleLogoutClick={props.handleLogoutClick} />
-            </>
+          props.user === undefined ||
+          <AddRecordButton handleClick={props.handleAddRecordClick} />
         }
+        <Account user={props.user} handleSignInClick={props.handleSignInClick} handleSignOutClick={props.handleSignOutClick} />
       </Toolbar>
     </AppBar>
   )
