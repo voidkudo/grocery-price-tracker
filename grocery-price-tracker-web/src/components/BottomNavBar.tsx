@@ -1,4 +1,4 @@
-import { Avatar, BottomNavigation, BottomNavigationAction, IconButton } from "@mui/material";
+import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddBoxIcon from '@mui/icons-material/AddBox';
