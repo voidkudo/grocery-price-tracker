@@ -18,6 +18,7 @@ const ItemPage = () => {
       field: 'itemDesc',
       headerName: 'Item Description',
       flex: 1,
+      minWidth: 150,
     },
     {
       field: 'brand',
