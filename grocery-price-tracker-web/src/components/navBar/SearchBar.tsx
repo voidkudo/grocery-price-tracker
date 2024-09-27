@@ -48,6 +48,7 @@ const SearchBar = (props: SearchBarProps) => {
       onInputChange={handleSearchInput}
       onChange={handleSearchValueSelect}
       onKeyDown={handleSearchKeyDown}
+      sx={{ width: '50%', minWidth: '300px'}}
       renderInput={(params) => (
         <TextField
           {...params}
