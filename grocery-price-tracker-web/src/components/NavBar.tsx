@@ -15,20 +15,16 @@ interface NavBarProps {
 }
 
 const NavBar = (props: NavBarProps) => {
-
   return (
-    <AppBar position='sticky' sx={{ backgroundColor: 'white' }}>
+    <AppBar position='sticky'>
       <Toolbar>
-        <Button onClick={props.handleTitleClick}>
-          <Typography variant='h6' >Grocery Price Tracker</Typography>
+        <Button variant='text' onClick={props.handleTitleClick}>
+          <Typography variant='h6'>Grocery Price Tracker</Typography>
         </Button>
-        <Box sx={{ flexGrow: 1, padding: '0 10em' }}>
+        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
           <SearchBar getItemOptions={props.getSearchOption} handleSearch={props.handleSearch} />
         </Box>
-        {
-          props.user === undefined ||
-          <AddRecordButton handleClick={props.handleAddRecordClick} />
-        }
+        <AddRecordButton handleClick={props.handleAddRecordClick} isHidden={props.user === undefined} />
         <Account user={props.user} handleSignInClick={props.handleSignInClick} handleSignOutClick={props.handleSignOutClick} />
       </Toolbar>
     </AppBar>
