@@ -67,7 +67,11 @@ const MainLayout = () => {
       </Container>
       <MediaQuery maxWidth={767}>
         <BottomNavBar
+          user={user}
           handleHomeClick={handleHomeClick}
+          handleSignInClick={handleSignIn}
+          handleAddRecordClick={handleAddRecordClick}
+          handleSignOutClick={handleSignOutClick}
         />
       </MediaQuery>
     </Box>

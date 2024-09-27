@@ -1,8 +1,16 @@
-import { BottomNavigation, BottomNavigationAction } from "@mui/material";
+import { Avatar, BottomNavigation, BottomNavigationAction, IconButton } from "@mui/material";
 import HomeIcon from '@mui/icons-material/Home';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import SearchIcon from '@mui/icons-material/Search';
+import { User } from "firebase/auth";
 
 interface BottomNavBarProps {
+  user?: User,
   handleHomeClick: () => void,
+  handleSignInClick: () => void,
+  handleAddRecordClick: () => void,
+  handleSignOutClick: () => void,
 };
 
 const BottomNavBar = (props: BottomNavBarProps) => {
@@ -11,7 +19,15 @@ const BottomNavBar = (props: BottomNavBarProps) => {
     <BottomNavigation
       showLabels
     >
-      <BottomNavigationAction label="Home" icon={<HomeIcon />} onClick={props.handleHomeClick}/>
+      <BottomNavigationAction label='Home' icon={<HomeIcon />} onClick={props.handleHomeClick} />
+      <BottomNavigationAction label='Search' icon={<SearchIcon />} onClick={props.handleHomeClick} />
+      
+      {
+        props.user === undefined ?
+          <BottomNavigationAction label='Sign In' icon={<AccountCircleIcon />} onClick={props.handleSignInClick} /> :
+          <BottomNavigationAction label='Add Record' icon={<AddBoxIcon />} onClick={props.handleAddRecordClick} />
+      }
+
     </BottomNavigation>
   )
 };
