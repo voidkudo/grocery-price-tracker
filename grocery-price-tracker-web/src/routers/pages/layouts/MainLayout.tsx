@@ -7,6 +7,8 @@ import { navigateToCreateItemPage, navigateToHomePage, navigateToItemPage } from
 import { resetUser, setUser } from "../../../stores/slices/userSlice";
 import { getAllItemOptions } from "../../../firebase/firestore";
 import { googleSignIn, googleSignOut } from "../../../firebase/googleAuth";
+import MediaQuery from "react-responsive";
+import BottomNavBar from "../../../components/BottomNavBar";
 
 const MainLayout = () => {
   const user = useSelector((state: RootState) => state.user.value);
@@ -16,6 +18,10 @@ const MainLayout = () => {
 
 
   const handleTitleClick = () => {
+    navigateToHomePage(navigate);
+  };
+
+  const handleHomeClick = () => {
     navigateToHomePage(navigate);
   };
 
@@ -41,23 +47,29 @@ const MainLayout = () => {
         dispatch(resetUser());
       }
     })
-    
   };
 
   return (
-    <Box sx={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column' }}>
-      <NavBar
-        user={user}
-        getSearchOption={getAllItemOptions}
-        handleTitleClick={handleTitleClick}
-        handleSearch={handleSearch}
-        handleSignInClick={handleSignIn}
-        handleAddRecordClick={handleAddRecordClick}
-        handleSignOutClick={handleSignOutClick}
-      />
+    <Box sx={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column', backgroundColor: 'palette.background.default' }}>
+      <MediaQuery minWidth={768}>
+        <NavBar
+          user={user}
+          getSearchOption={getAllItemOptions}
+          handleTitleClick={handleTitleClick}
+          handleSearch={handleSearch}
+          handleSignInClick={handleSignIn}
+          handleAddRecordClick={handleAddRecordClick}
+          handleSignOutClick={handleSignOutClick}
+        />
+      </MediaQuery>
       <Container sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'auto' }}>
         <Outlet />
       </Container>
+      <MediaQuery maxWidth={767}>
+        <BottomNavBar
+          handleHomeClick={handleHomeClick}
+        />
+      </MediaQuery>
     </Box>
   )
 };
