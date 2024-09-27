@@ -1,7 +1,8 @@
-import { Button, Checkbox, FormControlLabel, FormGroup, Stack, TextField } from "@mui/material";
+import { Alert, Button, Checkbox, FormControlLabel, FormGroup, Stack, TextField } from "@mui/material";
 import SelectOrTextField from "./CreateNewRecordForm/SelectOrTextField";
 import { ChangeEvent, useEffect, useState } from "react";
 import { GroceryItemPriceRecord } from "../types/createNewRecordForm";
+import { z } from "zod";
 
 interface CreateNewRecordFormProps {
   getCategoryOptions: () => Promise<string[]>,
@@ -25,12 +26,28 @@ const recordInit: GroceryItemPriceRecord = {
   isNewStore: false,
 };
 
+const recordSchema = z.object({
+  category: z.string().min(1, { message: 'Category is required' }),
+  itemName: z.string().min(1, { message: 'Item is required' }),
+  itemDesc: z.string().min(1, { message: 'Item Description is required' }),
+  brand: z.string(),
+  price: z.number().min(0.01, { message: 'Invalid Price' }),
+  qty: z.number().min(1, { message: 'Invalid QTY' }),
+  isTaxable: z.boolean(),
+  storeName: z.string().min(1, { message: 'Stire is required' }),
+  purchaseDate: z.string().date('Invalid Pruchase Date'),
+  isNewCategory: z.boolean(),
+  isNewItem: z.boolean(),
+  isNewStore: z.boolean(),
+})
+
 const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
   const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
   const [itemOptions, setItemOptions] = useState<string[]>([]);
   const [storeOptions, setStoreOptions] = useState<string[]>([]);
-
   const [record, setRecord] = useState<GroceryItemPriceRecord>(recordInit);
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const [isSuccess, setIsSuccess] = useState<boolean>(true);
 
   const handleCategoryChecked = (isChecked: boolean) => {
     setRecord({
@@ -122,18 +139,28 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
   };
 
   const handleSaveRecordClick = () => {
-    const saveRecord = { ...record };
-    if (categoryOptions.length === 0) {
-      saveRecord.isNewCategory = true;
+    const result = recordSchema.safeParse(record);
+
+    setIsSuccess(false);
+
+    if (result.success) {
+      const data: GroceryItemPriceRecord = result.data;
+      if (categoryOptions.length === 0) {
+        data.isNewCategory = true;
+      }
+      if (itemOptions.length === 0) {
+        data.isNewItem = true;
+      }
+      if (storeOptions.length === 0) {
+        data.isNewStore = true;
+      }
+      props.handleSubmit(data);
+      setRecord(recordInit);
+      setErrorMessages([]);
+      setIsSuccess(true);
+    } else {
+      setErrorMessages(result.error.issues.map(error => error.message));
     }
-    if (itemOptions.length === 0) {
-      saveRecord.isNewItem = true;
-    }
-    if (storeOptions.length === 0) {
-      saveRecord.isNewStore = true;
-    }
-    props.handleSubmit(saveRecord);
-    setRecord(recordInit);
   };
 
   useEffect(() => {
@@ -182,9 +209,15 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
         handleChecked={handleStoreChecked}
       />
       <TextField fullWidth label='Purchase Date' type='date' value={record.purchaseDate} onChange={handlePurchaseDateChange} />
+      {
+        errorMessages.length === 0 ||
+        errorMessages.map((errMsg, index) => (<Alert severity='error' key={index}>{errMsg}</Alert>))
+      }
+      {
+        isSuccess && <Alert severity='success'>Record Added</Alert>
+      }
       <Button variant='contained' onClick={handleSaveRecordClick}>Save Record</Button>
     </Stack>
-
   )
 };
 

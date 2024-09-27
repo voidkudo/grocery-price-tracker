@@ -38,6 +38,7 @@ const ItemPage = () => {
       field: 'isTaxable',
       headerName: 'HST/GST',
       width: 150,
+      type: 'boolean',
     },
     {
       field: 'storeName',
