@@ -47,7 +47,7 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
   const [storeOptions, setStoreOptions] = useState<string[]>([]);
   const [record, setRecord] = useState<GroceryItemPriceRecord>(recordInit);
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
-  const [isSuccess, setIsSuccess] = useState<boolean>(true);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const handleCategoryChecked = (isChecked: boolean) => {
     setRecord({
@@ -169,7 +169,7 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
   }, []);
 
   return (
-    <Stack spacing={1} width={'100%'}>
+    <Stack spacing={1} width={'100%'} height={'80%'} overflow={'auto'}>
       <SelectOrTextField
         textFieldLabel='Category'
         selectLabel='Select Category'
