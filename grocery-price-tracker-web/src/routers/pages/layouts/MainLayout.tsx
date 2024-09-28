@@ -3,9 +3,9 @@ import NavBar from "../../../components/NavBar";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../stores/store";
-import { navigateToCreateItemPage, navigateToHomePage, navigateToItemPage } from "../../navigate";
+import { navigateToCreateItemPage, navigateToHomePage, navigateToItemPage, navigateToSearchPage } from "../../navigate";
 import { resetUser, setUser } from "../../../stores/slices/userSlice";
-import { getAllItemOptions } from "../../../firebase/firestore";
+import { getAllItemDetailOptions } from "../../../firebase/firestore";
 import { googleSignIn, googleSignOut } from "../../../firebase/googleAuth";
 import MediaQuery from "react-responsive";
 import BottomNavBar from "../../../components/BottomNavBar";
@@ -26,7 +26,7 @@ const MainLayout = () => {
   };
 
   const handleSearch = (searchValue: string) => {
-    navigateToItemPage(navigate, searchValue);
+    navigateToSearchPage(navigate, searchValue);
   }
 
   const handleSignIn = () => {
@@ -54,7 +54,7 @@ const MainLayout = () => {
       <MediaQuery minWidth={768}>
         <NavBar
           user={user}
-          getSearchOption={getAllItemOptions}
+          getSearchOption={getAllItemDetailOptions}
           handleTitleClick={handleTitleClick}
           handleSearch={handleSearch}
           handleSignInClick={handleSignIn}
