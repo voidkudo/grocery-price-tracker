@@ -16,12 +16,12 @@ export interface FireStoreItemDoc extends FireStoreBase {
 
 export interface FireStoreItemDetailDoc extends FireStoreBase {
   item: string,
-  brand: string,
-  isTaxable: boolean,
   priceRecords: FireStoreItemDetailPriceRecord[],
 }
 
 export interface FireStoreItemDetailPriceRecord extends FireStoreBase {
+  brand: string,
+  isTaxable: boolean,
   price: number,
   qty: number,
   storeName: string,
