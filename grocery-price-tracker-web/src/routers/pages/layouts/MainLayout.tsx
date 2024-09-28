@@ -3,7 +3,7 @@ import NavBar from "../../../components/NavBar";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../stores/store";
-import { navigateToCreateItemPage, navigateToHomePage, navigateToItemPage, navigateToSearchPage } from "../../navigate";
+import { navigateToCreateItemPage, navigateToHomePage, navigateToSearchPage } from "../../navigate";
 import { resetUser, setUser } from "../../../stores/slices/userSlice";
 import { getAllItemDetailOptions } from "../../../firebase/firestore";
 import { googleSignIn, googleSignOut } from "../../../firebase/googleAuth";
