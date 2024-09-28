@@ -19,9 +19,9 @@ const CreateNewRecordPage = () => {
       addItemOptionByCategory(record.itemName, record.category, user.email!);
     }
     if (record.isNewItemDetail) {
-      addItemDetailByItem(record.itemDetailName, record.brand, record.isTaxable, record.itemName, user.email!);
+      addItemDetailByItem(record.itemDetailName, record.itemName, user.email!);
     }
-    addPriceRecordByItemDetails(record.price, record.qty, record.storeName, record.purchaseDate, record.itemDetailName, user.email!);
+    addPriceRecordByItemDetails(record.brand, record.isTaxable, record.price, record.qty, record.storeName, record.purchaseDate, record.itemDetailName, user.email!);
   };
 
   return (
