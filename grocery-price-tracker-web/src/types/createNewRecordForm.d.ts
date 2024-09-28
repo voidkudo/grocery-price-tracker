@@ -1,14 +1,15 @@
 export interface GroceryItemPriceRecord {
   category: string,
   itemName: string,
-  itemDesc: string,
+  itemDetailName: string,
   brand: string,
   price: number,
   qty: number
   isTaxable: boolean,
   storeName: string,
-  purchaseDate: string
+  purchaseDate: string,
   isNewCategory: boolean,
   isNewItem: boolean,
+  isNewItemDetail: boolean,
   isNewStore: boolean,
 };

@@ -3,10 +3,13 @@ import SelectOrTextField from "./CreateNewRecordForm/SelectOrTextField";
 import { ChangeEvent, useEffect, useState } from "react";
 import { GroceryItemPriceRecord } from "../types/createNewRecordForm";
 import { z } from "zod";
+import { DateCalendar, DatePicker, DateValidationError, PickerChangeHandlerContext } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 interface CreateNewRecordFormProps {
   getCategoryOptions: () => Promise<string[]>,
   getItemOptionsByCategory: (category: string) => Promise<string[]>,
+  getItemDetailsByItem: (item: string) => Promise<string[]>,
   getStoreOptions: () => Promise<string[]>,
   handleSubmit: (record: GroceryItemPriceRecord) => void,
 };
@@ -14,7 +17,7 @@ interface CreateNewRecordFormProps {
 const recordInit: GroceryItemPriceRecord = {
   category: '',
   itemName: '',
-  itemDesc: '',
+  itemDetailName: '',
   brand: '',
   price: 0.01,
   qty: 1,
@@ -23,13 +26,14 @@ const recordInit: GroceryItemPriceRecord = {
   purchaseDate: new Date().toISOString().split('T')[0],
   isNewCategory: false,
   isNewItem: false,
+  isNewItemDetail: false,
   isNewStore: false,
 };
 
 const recordSchema = z.object({
   category: z.string().min(1, { message: 'Category is required' }),
   itemName: z.string().min(1, { message: 'Item is required' }),
-  itemDesc: z.string().min(1, { message: 'Item Description is required' }),
+  itemDetailName: z.string().min(1, { message: 'Item Detail is required' }),
   brand: z.string(),
   price: z.number().min(0.01, { message: 'Invalid Price' }),
   qty: z.number().min(1, { message: 'Invalid QTY' }),
@@ -38,12 +42,14 @@ const recordSchema = z.object({
   purchaseDate: z.string().date('Invalid Pruchase Date'),
   isNewCategory: z.boolean(),
   isNewItem: z.boolean(),
+  isNewItemDetail: z.boolean(),
   isNewStore: z.boolean(),
 })
 
 const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
   const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
   const [itemOptions, setItemOptions] = useState<string[]>([]);
+  const [itemDetailsOptions, setItemDetailOptions] = useState<string[]>([]);
   const [storeOptions, setStoreOptions] = useState<string[]>([]);
   const [record, setRecord] = useState<GroceryItemPriceRecord>(recordInit);
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
@@ -74,16 +80,25 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
   };
 
   const handleItemChange = (value: string) => {
+    props.getItemDetailsByItem(value).then(data => setItemDetailOptions(data));
     setRecord({
       ...record,
       itemName: value,
     });
   };
 
-  const handleDescriptionChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleItemDetailChecked = (isChecked: boolean) => {
     setRecord({
       ...record,
-      itemDesc: e.target.value,
+      itemDetailName: '',
+      isNewItemDetail: isChecked,
+    })
+  };
+
+  const handleItemDetailChange = (value: string) => {
+    setRecord({
+      ...record,
+      itemDetailName: value,
     })
   };
 
@@ -130,11 +145,13 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
     });
   };
 
-  const handlePurchaseDateChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    console.log(e.target.value);
+  const handlePurchaseDateChange = (value: dayjs.Dayjs | null, _context: PickerChangeHandlerContext<DateValidationError>) => {
+    if (value === null) {
+      value = dayjs();
+    }
     setRecord({
       ...record,
-      purchaseDate: e.target.value,
+      purchaseDate: value.format('YYYY-MM-DD'),
     });
   };
 
@@ -150,6 +167,9 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
       }
       if (itemOptions.length === 0) {
         data.isNewItem = true;
+      }
+      if (itemDetailsOptions.length === 0) {
+        data.isNewItemDetail = true;
       }
       if (storeOptions.length === 0) {
         data.isNewStore = true;
@@ -191,7 +211,17 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
         handleTextChange={handleItemChange}
         handleChecked={handleItemChecked}
       />
-      <TextField label='Description' value={record.itemDesc} onChange={handleDescriptionChange} />
+      <SelectOrTextField
+        textFieldLabel='Item Details'
+        selectLabel='Select Item Detail'
+        checkboxLabel='New Item Detail'
+        selectOptions={itemDetailsOptions}
+        textValue={record.itemDetailName}
+        isChecked={record.isNewItemDetail}
+        isDisabled={record.itemName === ''}
+        handleTextChange={handleItemDetailChange}
+        handleChecked={handleItemDetailChecked}
+      />
       <TextField label='Brand (Optional)' value={record.brand} onChange={handleBrandChange} />
       <TextField label='QTY' type='number' value={record.qty} onChange={handleQtyChange} />
       <TextField label='Price' type='number' value={record.price} onChange={handlePriceChange} />
@@ -208,7 +238,7 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
         handleTextChange={handleStoreChange}
         handleChecked={handleStoreChecked}
       />
-      <TextField fullWidth label='Purchase Date' type='date' value={record.purchaseDate} onChange={handlePurchaseDateChange} />
+      <DatePicker label='Purchase Date' value={dayjs(record.purchaseDate)} onChange={handlePurchaseDateChange}/>
       {
         errorMessages.length === 0 ||
         errorMessages.map((errMsg, index) => (<Alert severity='error' key={index}>{errMsg}</Alert>))
