@@ -5,7 +5,8 @@ import HomePage from './pages/HomePage';
 import ItemPage from './pages/ItemPage';
 import CategoryPage from './pages/CategoryPage';
 import CreateNewRecordPage from './pages/CreateNewRecordPage';
-import SeedingPage from './pages/SeedingPage';
+import ItemDetailPage from './pages/ItemDetailPage';
+import SearchPage from './pages/SearchPage';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
         element: <ItemPage />,
       },
       {
+        path: '/itemDetail',
+        element: <ItemDetailPage />,
+      },
+      {
         path: '/category',
         element: <CategoryPage />,
       },
@@ -28,12 +33,11 @@ const router = createBrowserRouter([
         path: '/createNewRecord',
         element: <CreateNewRecordPage />,
       },
+      {
+        path: '/search',
+        element: <SearchPage />,
+      },
     ],
-  },
-  {
-    path: '/seeding',
-    element: <SeedingPage />,
-    errorElement: <ErrorPage />,
   }
 ]);
 
