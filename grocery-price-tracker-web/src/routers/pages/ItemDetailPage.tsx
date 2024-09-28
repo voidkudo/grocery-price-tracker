@@ -1,4 +1,5 @@
 import { Box, Chip, Stack, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import useParam from "../../hooks/useParam";
 import { useNavigate } from "react-router-dom";
@@ -29,29 +30,40 @@ const ItemDetailPage = () => {
     <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center' }}>
       {
         itemDetail === undefined ?
-          <Typography variant='h6'>{itemDetailValue} Not Found</Typography> :
+          <Box height={'20%'} display={'flex'} alignItems={'center'}>
+            <Typography variant='h6'>{itemDetailValue} Not Found</Typography>
+          </Box>
+          :
           <>
-            <Typography variant='h3'>{itemDetailValue}</Typography>
-            <Chip label={itemDetail.item} variant='outlined' clickable onClick={() => navigateToItemPage(navigate, itemDetail.item)} />
-            <Box sx={{ width: '100%', height: '80%', display: 'flex' }}>
-              <Box sx={{ width: '50%', height: '100%' }} />
-              <Stack spacing={1} width={'50%'} height={'100%'} overflow={'auto'}>
-                {
-                  itemDetail.priceRecords.map((priceRecord, index) => (
-                    <PriceRecordCard
-                      key={index}
-                      brand={priceRecord.brand}
-                      isTaxable={priceRecord.isTaxable}
-                      price={priceRecord.price}
-                      qty={priceRecord.qty}
-                      storeName={priceRecord.storeName}
-                      purchaseDate={priceRecord.purchaseDate}
-                    />
-                  ))
-                }
-
-              </Stack>
+            <Box height={'20%'} display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'}>
+              <Typography variant='h3'>{itemDetailValue}</Typography>
+              <Box display={'flex'} justifyContent={'center'}>
+                <Chip label={itemDetail.item} variant='outlined' clickable onClick={() => navigateToItemPage(navigate, itemDetail.item)} />
+              </Box>
             </Box>
+
+            <Grid container spacing={1} height={'80%'} width={'100%'} justifyContent={'center'} alignItems={'center'} alignContent={'start'} overflow={'auto'}>
+              <Grid size={{ xs: 12, sm: 6 }}>
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <Stack spacing={1} width={'100%'} height={'100%'} overflow={'auto'}>
+                  {
+                    itemDetail.priceRecords.map((priceRecord, index) => (
+                      <PriceRecordCard
+                        key={index}
+                        brand={priceRecord.brand}
+                        isTaxable={priceRecord.isTaxable}
+                        price={priceRecord.price}
+                        qty={priceRecord.qty}
+                        storeName={priceRecord.storeName}
+                        purchaseDate={priceRecord.purchaseDate}
+                      />
+                    ))
+                  }
+
+                </Stack>
+              </Grid>
+            </Grid>
           </>
       }
     </Box>
