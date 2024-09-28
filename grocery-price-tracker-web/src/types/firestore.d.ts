@@ -11,13 +11,17 @@ export interface FireStoreCategoryDoc extends FireStoreBase {
 
 export interface FireStoreItemDoc extends FireStoreBase {
   category: string,
-  priceRecords: FireStoreItemPriceRecord[],
+  itemDetails: string[],
 }
 
-export interface FireStoreItemPriceRecord extends FireStoreBase {
-  itemDesc: string,
+export interface FireStoreItemDetailDoc extends FireStoreBase {
+  item: string,
   brand: string,
   isTaxable: boolean,
+  priceRecords: FireStoreItemDetailPriceRecord[],
+}
+
+export interface FireStoreItemDetailPriceRecord extends FireStoreBase {
   price: number,
   qty: number,
   storeName: string,

@@ -1,6 +1,6 @@
 import { arrayUnion, collection, doc, getDoc, getDocs, setDoc, Timestamp } from "firebase/firestore"
 import { firestore } from "./firebase"
-import { FireStoreBase, FireStoreCategoryDoc, FireStoreItemDoc, FireStoreItemPriceRecord, } from "../types/firestore";
+import { FireStoreBase, FireStoreCategoryDoc, FireStoreItemDoc, FireStoreItemDetailDoc, FireStoreItemDetailPriceRecord } from "../types/firestore";
 
 export const addCategoryOption = async (categoryName: string, username: string) => {
   const categoryDoc: FireStoreCategoryDoc = {
@@ -24,7 +24,7 @@ export const addItemOptionByCategory = async (itemName: string, categoryName: st
     category: categoryName,
     creationTimestamp: Timestamp.now(),
     createdBy: username,
-    priceRecords: [],
+    itemDetails: [],
   };
   setDoc(doc(firestore, 'categories', categoryName), { items: arrayUnion(itemName) }, { merge: true })
   setDoc(doc(firestore, 'items', itemName), itemDoc, { merge: true });
@@ -39,19 +39,11 @@ export const getItemOptionsByCategory = async (categoryName: string) => {
   return items;
 };
 
-export const getAllItemOptions = async () => {
-  let items: string[] = [];
-  const snapshot = await getDocs(collection(firestore, 'items'));
-  snapshot.forEach(item => { items.push(item.id) });
-  return items;
-};
-
 export const addStoreOption = async (storeName: string, username: string) => {
   const storeDoc: FireStoreBase = {
     creationTimestamp: Timestamp.now(),
     createdBy: username,
   };
-
   setDoc(doc(firestore, 'stores', storeName), storeDoc, { merge: true });
 };
 
@@ -62,19 +54,47 @@ export const getStoreOptions = async () => {
   return stores;
 };
 
-export const addPriceRecordByItem = async (itemName: string, itemDesc: string, brand: string, price: number, qty: number, storeName: string, isTaxable: boolean, purchaseDate: string, username: string) => {
-  const priceRecord: FireStoreItemPriceRecord = {
-    itemDesc: itemDesc,
+export const addItemDetailByItem = async (itemDetailName: string, brand: string, isTaxable: boolean, itemName: string, username: string) => {
+  const itemDetail: FireStoreItemDetailDoc = {
+    item: itemName,
     brand: brand,
     isTaxable: isTaxable,
+    priceRecords: [],
+    creationTimestamp: Timestamp.now(),
+    createdBy: username,
+  };
+  setDoc(doc(firestore, 'items', itemName), { itemDetails: arrayUnion(itemDetailName) }, { merge: true })
+  setDoc(doc(firestore, 'itemDetails', itemDetailName), itemDetail, { merge: true });
+};
+
+export const getItemDetailOptionsByItem = async (itemName: string) => {
+  let itemDetails: string[] = [];
+  const snapshot = await getDoc(doc(firestore, 'items', itemName));
+  if (snapshot.exists()) {
+    itemDetails = (snapshot.data() as FireStoreItemDoc).itemDetails;
+  }
+  return itemDetails;
+};
+
+export const getAllItemDetailOptions = async () => {
+  let itemDetails: string[] = [];
+  const snapshot = await getDocs(collection(firestore, 'itemDetails'));
+  snapshot.forEach(itemDetail => itemDetails.push(itemDetail.id))
+  console.log(itemDetails)
+  return itemDetails;
+};
+
+export const addPriceRecordByItemDetails = async (price: number, qty: number, storeName: string, purchaseDate: string, itemDetailName: string, username: string) => {
+  const priceRecord: FireStoreItemDetailPriceRecord = {
     price: price,
     qty: qty,
     storeName: storeName,
     purchaseDate: purchaseDate,
     creationTimestamp: Timestamp.now(),
     createdBy: username,
-  };
-  setDoc(doc(firestore, 'items', itemName), { priceRecords: arrayUnion(priceRecord) }, { merge: true });
+  }
+
+  setDoc(doc(firestore, 'itemDetails', itemDetailName), { priceRecords: arrayUnion(priceRecord) }, { merge: true });
 };
 
 export const getPriceRecordsByItem = async () => {
@@ -84,10 +104,10 @@ export const getPriceRecordsByItem = async () => {
   return stores;
 };
 
-export const getItemByName = async (itemName: string) => {
-  const snapshot = await getDoc(doc(firestore, 'items', itemName));
+export const getItemDetailByName = async (itemDetailName: string) => {
+  const snapshot = await getDoc(doc(firestore, 'itemDetails', itemDetailName));
   if (!snapshot.exists()) {
     return undefined;
   }
-  return snapshot.data() as FireStoreItemDoc;
+  return snapshot.data() as FireStoreItemDetailDoc;
 };
