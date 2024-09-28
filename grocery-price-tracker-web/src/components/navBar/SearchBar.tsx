@@ -65,7 +65,7 @@ const SearchBar = (props: SearchBarProps) => {
             },
           }}
           variant='outlined'
-          placeholder='Search any Grocery Items'
+          placeholder='Search'
         />
       )}
     />
