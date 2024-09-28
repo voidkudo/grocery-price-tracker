@@ -54,11 +54,9 @@ export const getStoreOptions = async () => {
   return stores;
 };
 
-export const addItemDetailByItem = async (itemDetailName: string, brand: string, isTaxable: boolean, itemName: string, username: string) => {
+export const addItemDetailByItem = async (itemDetailName: string, itemName: string, username: string) => {
   const itemDetail: FireStoreItemDetailDoc = {
     item: itemName,
-    brand: brand,
-    isTaxable: isTaxable,
     priceRecords: [],
     creationTimestamp: Timestamp.now(),
     createdBy: username,
@@ -80,12 +78,13 @@ export const getAllItemDetailOptions = async () => {
   let itemDetails: string[] = [];
   const snapshot = await getDocs(collection(firestore, 'itemDetails'));
   snapshot.forEach(itemDetail => itemDetails.push(itemDetail.id))
-  console.log(itemDetails)
   return itemDetails;
 };
 
-export const addPriceRecordByItemDetails = async (price: number, qty: number, storeName: string, purchaseDate: string, itemDetailName: string, username: string) => {
+export const addPriceRecordByItemDetails = async (brand: string, isTaxable: boolean, price: number, qty: number, storeName: string, purchaseDate: string, itemDetailName: string, username: string) => {
   const priceRecord: FireStoreItemDetailPriceRecord = {
+    brand: brand,
+    isTaxable: isTaxable,
     price: price,
     qty: qty,
     storeName: storeName,
