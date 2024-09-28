@@ -3,7 +3,7 @@ import SelectOrTextField from "./CreateNewRecordForm/SelectOrTextField";
 import { ChangeEvent, useEffect, useState } from "react";
 import { GroceryItemPriceRecord } from "../types/createNewRecordForm";
 import { z } from "zod";
-import { DateCalendar, DatePicker, DateValidationError, PickerChangeHandlerContext } from "@mui/x-date-pickers";
+import { DatePicker, DateValidationError, PickerChangeHandlerContext } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
 interface CreateNewRecordFormProps {
