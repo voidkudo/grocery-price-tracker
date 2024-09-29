@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Checkbox, FormControlLabel, FormGroup, TextField } from "@mui/material";
+import { Autocomplete, Checkbox, FormControlLabel, FormGroup, TextField } from "@mui/material";
 import { ChangeEvent, SyntheticEvent } from "react";
 
 interface SelectOrTextFieldProps {
