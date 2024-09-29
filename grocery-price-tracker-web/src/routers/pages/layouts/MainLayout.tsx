@@ -60,8 +60,13 @@ const MainLayout = () => {
     setIsMobileSearchOpen(false);
   };
 
+  const handleMobileSearch = (searchValue: string) => {
+    setIsMobileSearchOpen(false);
+    navigateToSearchPage(navigate, searchValue);
+  }
+
   return (
-    <Box sx={{ height: '100dvh', width: '100dvw', display: 'flex', flexDirection: 'column', backgroundColor: 'palette.background.default' }}>
+    <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', backgroundColor: 'palette.background.default' }}>
       <MediaQuery minWidth={768}>
         <NavBar
           user={user}
@@ -77,17 +82,20 @@ const MainLayout = () => {
         <Outlet />
       </Container>
       <MediaQuery maxWidth={767}>
-        <BottomNavBar
-          user={user}
-          handleHomeClick={handleHomeClick}
-          handleSearchClick={handleMobileSearchOpen}
-          handleSignInClick={handleSignIn}
-          handleAddRecordClick={handleAddRecordClick}
-          handleSignOutClick={handleSignOutClick}
-        />
+        <Box position={'static'} bottom={0} left={0} right={0}>
+          <BottomNavBar
+            user={user}
+            handleHomeClick={handleHomeClick}
+            handleSearchClick={handleMobileSearchOpen}
+            handleSignInClick={handleSignIn}
+            handleAddRecordClick={handleAddRecordClick}
+            handleSignOutClick={handleSignOutClick}
+          />
+        </Box>
+
         <Dialog open={isMobileSearchOpen} onClose={handleMobileSearchClose}>
-        <SearchBar getItemOptions={getAllItemDetailOptions} handleSearch={handleSearch} />
-      </Dialog>
+          <SearchBar getItemOptions={getAllItemDetailOptions} handleSearch={handleMobileSearch} />
+        </Dialog>
       </MediaQuery>
     </Box>
   )
