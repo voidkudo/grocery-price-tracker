@@ -2,7 +2,7 @@
 import { Box, Typography } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 import CreateNewRecordForm from "../../components/CreateNewRecordForm";
-import { addStoreOption, getStoreOptions, getCategoryOptions, addCategoryOption, addItemOptionByCategory, getItemOptionsByCategory, addPriceRecordByItem } from "../../firebase/firestore";
+import { addStoreOption, getStoreOptions, getCategoryOptions, addCategoryOption, addItemOptionByCategory, getItemOptionsByCategory, addItemDetailByItem, addPriceRecordByItemDetails, getItemDetailOptionsByItem } from "../../firebase/firestore";
 import { GroceryItemPriceRecord } from "../../types/createNewRecordForm";
 
 const CreateNewRecordPage = () => {
@@ -18,7 +18,10 @@ const CreateNewRecordPage = () => {
     if (record.isNewItem) {
       addItemOptionByCategory(record.itemName, record.category, user.email!);
     }
-    addPriceRecordByItem(record.itemName, record.itemDesc, record.brand, record.price, record.qty, record.storeName, record.isTaxable, record.purchaseDate, user.email!);
+    if (record.isNewItemDetail) {
+      addItemDetailByItem(record.itemDetailName, record.itemName, user.email!);
+    }
+    addPriceRecordByItemDetails(record.brand, record.isTaxable, record.price, record.qty, record.storeName, record.purchaseDate, record.itemDetailName, user.email!);
   };
 
   return (
@@ -27,6 +30,7 @@ const CreateNewRecordPage = () => {
       <CreateNewRecordForm
         getCategoryOptions={getCategoryOptions}
         getItemOptionsByCategory={getItemOptionsByCategory}
+        getItemDetailsByItem={getItemDetailOptionsByItem}
         getStoreOptions={getStoreOptions}
         handleSubmit={handleCreateItemFormSubmit}
       />

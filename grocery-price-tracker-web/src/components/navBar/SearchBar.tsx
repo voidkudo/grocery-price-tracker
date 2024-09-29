@@ -8,7 +8,7 @@ interface SearchBarProps {
 };
 
 const SearchBar = (props: SearchBarProps) => {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState<string>('');
   const [options, setOptions] = useState<string[]>([]);
 
   const handleSearchKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -48,6 +48,7 @@ const SearchBar = (props: SearchBarProps) => {
       onInputChange={handleSearchInput}
       onChange={handleSearchValueSelect}
       onKeyDown={handleSearchKeyDown}
+      sx={{ width: '50%', minWidth: '300px'}}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -64,7 +65,7 @@ const SearchBar = (props: SearchBarProps) => {
             },
           }}
           variant='outlined'
-          placeholder='Search any Grocery Items'
+          placeholder='Search'
         />
       )}
     />

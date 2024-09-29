@@ -23,10 +23,24 @@ export const navigateToItemPage = (navigate: NavigateFunction, itemName: string)
   });
 };
 
-export const navigateToCreateItemPage = (navigate: NavigateFunction) => {
-  navigate('/createNewRecord');
+export const navigateToItemDetailPage = (navigate: NavigateFunction, itemDetailName: string) => {
+  navigate({
+    pathname: '/itemDetail',
+    search: createSearchParams({
+      value: itemDetailName
+    }).toString()
+  });
 };
 
-export const navigateToNotAuthorizedPage = (navigate: NavigateFunction) => {
-  navigate('/notAuthorized');
+export const navigateToSearchPage = (navigate: NavigateFunction, searchValue: string) => {
+  navigate({
+    pathname: '/search',
+    search: createSearchParams({
+      value: searchValue
+    }).toString()
+  });
+};
+
+export const navigateToCreateItemPage = (navigate: NavigateFunction) => {
+  navigate('/createNewRecord');
 };
