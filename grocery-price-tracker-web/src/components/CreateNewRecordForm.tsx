@@ -38,7 +38,7 @@ const recordSchema = z.object({
   price: z.number().min(0.01, { message: 'Invalid Price' }),
   qty: z.number().min(1, { message: 'Invalid QTY' }),
   isTaxable: z.boolean(),
-  storeName: z.string().min(1, { message: 'Stire is required' }),
+  storeName: z.string().min(1, { message: 'Store is required' }),
   purchaseDate: z.string().date('Invalid Pruchase Date'),
   isNewCategory: z.boolean(),
   isNewItem: z.boolean(),
@@ -189,7 +189,7 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
   }, []);
 
   return (
-    <Stack spacing={1} width={'100%'} height={'80%'} overflow={'auto'}>
+    <Stack spacing={1} width={'100%'} height={'100%'} padding={'0 5%'} overflow={'auto'} >
       <SelectOrTextField
         textFieldLabel='Category'
         selectLabel='Select Category'
@@ -222,9 +222,9 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
         handleTextChange={handleItemDetailChange}
         handleChecked={handleItemDetailChecked}
       />
-      <TextField label='Brand (Optional)' value={record.brand} onChange={handleBrandChange} />
-      <TextField label='QTY' type='number' value={record.qty} onChange={handleQtyChange} />
-      <TextField label='Price' type='number' value={record.price} onChange={handlePriceChange} />
+      <TextField variant='standard' label='Brand (Optional)' value={record.brand} onChange={handleBrandChange} />
+      <TextField variant='standard' label='QTY' type='number' value={record.qty} onChange={handleQtyChange} />
+      <TextField variant='standard' label='Price' type='number' value={record.price} onChange={handlePriceChange} />
       <FormGroup>
         <FormControlLabel control={<Checkbox checked={record.isTaxable} onChange={handleIsTaxableChange} />} label='HST/GST' />
       </FormGroup>
@@ -238,7 +238,17 @@ const CreateNewRecordForm = (props: CreateNewRecordFormProps) => {
         handleTextChange={handleStoreChange}
         handleChecked={handleStoreChecked}
       />
-      <DatePicker label='Purchase Date' value={dayjs(record.purchaseDate)} onChange={handlePurchaseDateChange}/>
+      <DatePicker
+        label='Purchase Date'
+        value={dayjs(record.purchaseDate)}
+        onChange={handlePurchaseDateChange}
+        slotProps={{
+          textField: {
+            variant: 'standard',
+            fullWidth: true,
+          }
+        }}
+      />
       {
         errorMessages.length === 0 ||
         errorMessages.map((errMsg, index) => (<Alert severity='error' key={index}>{errMsg}</Alert>))
