@@ -39,6 +39,7 @@ const SelectOrTextField = (props: SelectOrTextFieldProps) => {
         isForceChecked || props.isChecked ?
           <TextField
             fullWidth
+            variant='standard'
             disabled={props.isDisabled}
             label={props.textFieldLabel}
             value={props.textValue}
@@ -48,7 +49,7 @@ const SelectOrTextField = (props: SelectOrTextFieldProps) => {
             disabled={props.isDisabled}
             options={props.selectOptions}
             noOptionsText={props.noOptionsText}
-            renderInput={(params) => <TextField {...params} label={props.selectLabel} />}
+            renderInput={(params) => <TextField {...params} fullWidth variant='standard' label={props.selectLabel} />}
             value={props.textValue}
             onChange={handleSelectChange}
           />
