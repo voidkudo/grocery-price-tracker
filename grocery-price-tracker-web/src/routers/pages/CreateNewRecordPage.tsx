@@ -1,5 +1,5 @@
 
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 import CreateNewRecordForm from "../../components/CreateNewRecordForm";
 import { addStoreOption, getStoreOptions, getCategoryOptions, addCategoryOption, addItemOptionByCategory, getItemOptionsByCategory, addItemDetailByItem, addPriceRecordByItemDetails, getItemDetailOptionsByItem } from "../../firebase/firestore";
