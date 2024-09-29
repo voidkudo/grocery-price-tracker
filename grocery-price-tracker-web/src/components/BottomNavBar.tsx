@@ -8,6 +8,7 @@ import { User } from "firebase/auth";
 interface BottomNavBarProps {
   user?: User,
   handleHomeClick: () => void,
+  handleSearchClick: () => void,
   handleSignInClick: () => void,
   handleAddRecordClick: () => void,
   handleSignOutClick: () => void,
@@ -20,7 +21,7 @@ const BottomNavBar = (props: BottomNavBarProps) => {
       showLabels
     >
       <BottomNavigationAction label='Home' icon={<HomeIcon />} onClick={props.handleHomeClick} />
-      <BottomNavigationAction label='Search' icon={<SearchIcon />} onClick={props.handleHomeClick} />
+      <BottomNavigationAction label='Search' icon={<SearchIcon />} onClick={props.handleSearchClick} />
       
       {
         props.user === undefined ?
