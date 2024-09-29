@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material"
+import { Box, Container, Dialog } from "@mui/material"
 import NavBar from "../../../components/NavBar";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,8 +9,11 @@ import { getAllItemDetailOptions } from "../../../firebase/firestore";
 import { googleSignIn, googleSignOut } from "../../../firebase/googleAuth";
 import MediaQuery from "react-responsive";
 import BottomNavBar from "../../../components/BottomNavBar";
+import SearchBar from "../../../components/navBar/SearchBar";
+import { useState } from "react";
 
 const MainLayout = () => {
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState<boolean>(false);
   const user = useSelector((state: RootState) => state.user.value);
 
   const dispatch = useDispatch();
@@ -49,6 +52,14 @@ const MainLayout = () => {
     })
   };
 
+  const handleMobileSearchOpen = () => {
+    setIsMobileSearchOpen(true);
+  };
+
+  const handleMobileSearchClose = () => {
+    setIsMobileSearchOpen(false);
+  };
+
   return (
     <Box sx={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column', backgroundColor: 'palette.background.default' }}>
       <MediaQuery minWidth={768}>
@@ -69,10 +80,14 @@ const MainLayout = () => {
         <BottomNavBar
           user={user}
           handleHomeClick={handleHomeClick}
+          handleSearchClick={handleMobileSearchOpen}
           handleSignInClick={handleSignIn}
           handleAddRecordClick={handleAddRecordClick}
           handleSignOutClick={handleSignOutClick}
         />
+        <Dialog open={isMobileSearchOpen} onClose={handleMobileSearchClose}>
+        <SearchBar getItemOptions={getAllItemDetailOptions} handleSearch={handleSearch} />
+      </Dialog>
       </MediaQuery>
     </Box>
   )
