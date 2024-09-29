@@ -61,7 +61,7 @@ const MainLayout = () => {
   };
 
   return (
-    <Box sx={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column', backgroundColor: 'palette.background.default' }}>
+    <Box sx={{ height: '100dvh', width: '100dvw', display: 'flex', flexDirection: 'column', backgroundColor: 'palette.background.default' }}>
       <MediaQuery minWidth={768}>
         <NavBar
           user={user}
