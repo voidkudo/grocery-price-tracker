@@ -57,7 +57,7 @@ const ItemDetailPage = () => {
                   <PriceCard label='All Time Average Price' price={getAveragePrice(unitPriceRecords!)} backgroundColor='success.dark' />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  <PriceCard label='Last 10 Average Price' price={getAveragePrice(unitPriceRecords!.slice(-10))} backgroundColor='info.dark' />
+                  <PriceCard label='Recents Average Price' price={getAveragePrice(unitPriceRecords!.slice(-10))} backgroundColor='info.dark' />
                 </Grid>
               </Grid>
               <Grid size={{ xs: 12, sm: 6 }} alignSelf={'start'}>
