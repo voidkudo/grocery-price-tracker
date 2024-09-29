@@ -8,7 +8,7 @@ interface SearchBarProps {
 };
 
 const SearchBar = (props: SearchBarProps) => {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState<string>('');
   const [options, setOptions] = useState<string[]>([]);
 
   const handleSearchKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
