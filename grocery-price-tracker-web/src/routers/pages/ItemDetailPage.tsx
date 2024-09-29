@@ -35,12 +35,12 @@ const ItemDetailPage = () => {
       {
         itemDetail === undefined ?
           <Box height={'20%'} display={'flex'} alignItems={'center'}>
-            <Typography variant='h6'>{itemDetailValue} Not Found</Typography>
+            <Typography variant='h6' textAlign={'center'}>{itemDetailValue} Not Found</Typography>
           </Box>
           :
           <>
             <Box height={'20%'} display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'}>
-              <Typography variant='h3'>{itemDetailValue}</Typography>
+              <Typography variant='h3' textAlign={'center'}>{itemDetailValue}</Typography>
               <Box display={'flex'} justifyContent={'center'}>
                 <Chip label={itemDetail.item} variant='outlined' clickable onClick={() => navigateToItemPage(navigate, itemDetail.item)} />
               </Box>
