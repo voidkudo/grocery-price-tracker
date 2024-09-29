@@ -1,5 +1,5 @@
 
-import { Box, Typography } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 import CreateNewRecordForm from "../../components/CreateNewRecordForm";
 import { addStoreOption, getStoreOptions, getCategoryOptions, addCategoryOption, addItemOptionByCategory, getItemOptionsByCategory, addItemDetailByItem, addPriceRecordByItemDetails, getItemDetailOptionsByItem } from "../../firebase/firestore";
@@ -26,14 +26,18 @@ const CreateNewRecordPage = () => {
 
   return (
     <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center' }}>
-      <Typography variant='h4'>Create New Record</Typography>
-      <CreateNewRecordForm
-        getCategoryOptions={getCategoryOptions}
-        getItemOptionsByCategory={getItemOptionsByCategory}
-        getItemDetailsByItem={getItemDetailOptionsByItem}
-        getStoreOptions={getStoreOptions}
-        handleSubmit={handleCreateItemFormSubmit}
-      />
+      <Box height={'20%'} display={'flex'} alignItems={'center'}>
+        <Typography variant='h4' textAlign={'center'}>Create New Record</Typography>
+      </Box>
+      <Box height={'80%'} width={'100%'}>
+        <CreateNewRecordForm
+          getCategoryOptions={getCategoryOptions}
+          getItemOptionsByCategory={getItemOptionsByCategory}
+          getItemDetailsByItem={getItemDetailOptionsByItem}
+          getStoreOptions={getStoreOptions}
+          handleSubmit={handleCreateItemFormSubmit}
+        />
+      </Box>
     </Box>
   )
 };
