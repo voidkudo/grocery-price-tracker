@@ -6,7 +6,7 @@ import { User } from "firebase/auth";
 
 interface NavBarProps {
   user?: User,
-  getSearchOption: () => Promise<string[]>,
+  getSearchOption: (searchValue: string) => Promise<string[]>,
   handleTitleClick: () => void,
   handleSearch: (searchValue: string) => void,
   handleSignInClick: () => void,

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../stores/store";
 import { navigateToCreateItemPage, navigateToHomePage, navigateToSearchPage } from "../../navigate";
 import { resetUser, setUser } from "../../../stores/slices/userSlice";
-import { getAllItemDetailOptions } from "../../../firebase/firestore";
+import { getAllItemDetailOptionsByItem } from "../../../firebase/firestore";
 import { googleSignIn, googleSignOut } from "../../../firebase/googleAuth";
 import MediaQuery from "react-responsive";
 import BottomNavBar from "../../../components/BottomNavBar";
@@ -70,7 +70,7 @@ const MainLayout = () => {
       <MediaQuery minWidth={768}>
         <NavBar
           user={user}
-          getSearchOption={getAllItemDetailOptions}
+          getSearchOption={getAllItemDetailOptionsByItem}
           handleTitleClick={handleTitleClick}
           handleSearch={handleSearch}
           handleSignInClick={handleSignIn}
@@ -94,7 +94,7 @@ const MainLayout = () => {
         </Box>
 
         <Dialog open={isMobileSearchOpen} onClose={handleMobileSearchClose}>
-          <SearchBar getItemOptions={getAllItemDetailOptions} handleSearch={handleMobileSearch} />
+          <SearchBar getItemOptions={getAllItemDetailOptionsByItem} handleSearch={handleMobileSearch} />
         </Dialog>
       </MediaQuery>
     </Box>

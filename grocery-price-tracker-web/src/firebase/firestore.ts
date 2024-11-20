@@ -1,4 +1,4 @@
-import { arrayUnion, collection, doc, getDoc, getDocs, setDoc, Timestamp } from "firebase/firestore"
+import { arrayUnion, collection, doc, getDoc, getDocs, limit, query, setDoc, startAt, Timestamp } from "firebase/firestore"
 import { firestore } from "./firebase"
 import { FireStoreBase, FireStoreCategoryDoc, FireStoreItemDoc, FireStoreItemDetailDoc, FireStoreItemDetailPriceRecord } from "../types/firestore";
 
@@ -74,10 +74,17 @@ export const getItemDetailOptionsByItem = async (itemName: string) => {
   return itemDetails;
 };
 
-export const getAllItemDetailOptions = async () => {
+export const getAllItemDetailOptions = async (maxItemCount: number = 10) => {
   let itemDetails: string[] = [];
-  const snapshot = await getDocs(collection(firestore, 'itemDetails'));
-  snapshot.forEach(itemDetail => itemDetails.push(itemDetail.id))
+  const snapshot = await getDocs(query(collection(firestore, 'itemDetails'), limit(maxItemCount)));
+  snapshot.forEach(itemDetail => itemDetails.push(itemDetail.id));
+  return itemDetails;
+};
+
+export const getAllItemDetailOptionsByItem = async (itemDetailName: string, maxItemCount: number = 10) => {
+  let itemDetails: string[] = [];
+  const snapshot = await getDocs(query(collection(firestore, 'itemDetails'), startAt(itemDetailName), limit(maxItemCount)));
+  snapshot.forEach(itemDetail => itemDetails.push(itemDetail.id));
   return itemDetails;
 };
 

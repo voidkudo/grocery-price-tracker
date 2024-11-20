@@ -3,7 +3,7 @@ import { Autocomplete, IconButton, InputAdornment, TextField } from "@mui/materi
 import { KeyboardEvent, SyntheticEvent, useEffect, useState } from "react";
 
 interface SearchBarProps {
-  getItemOptions: () => Promise<string[]>,
+  getItemOptions: (searchValue: string) => Promise<string[]>,
   handleSearch: (value: string) => void,
 };
 
@@ -36,8 +36,8 @@ const SearchBar = (props: SearchBarProps) => {
   };
 
   useEffect(() => {
-    props.getItemOptions().then(options => setOptions(options));
-  }, []);
+    props.getItemOptions(searchValue).then(options => setOptions(options));
+  }, [searchValue]);
 
   return (
     <Autocomplete
